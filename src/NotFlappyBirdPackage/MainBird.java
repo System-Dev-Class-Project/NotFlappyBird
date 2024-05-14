@@ -9,12 +9,12 @@ import javax.swing.Timer;
 
 public class MainBird {
 	
-	//Window
+	//Window Test
 	//1st panel
 	//2nd panel
 	private static JFrame window;
 	public static Timer timer, timer2;
-	private int proceed=4;
+	private int proceed=1;
 	
 	
 	

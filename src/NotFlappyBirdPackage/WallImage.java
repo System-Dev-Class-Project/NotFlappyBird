@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.InputStream;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
@@ -16,7 +17,7 @@ public class WallImage {
 	public int Y= r.nextInt(GamePanel.HEIGHT-400)+200; //max 600, min 200
 	private int width_Wall= 45;
 	private int height= GamePanel.HEIGHT -Y;
-	private int gap = 200;
+	public static int gap = 200;
 	
 	public static int speed = -6;
 	
@@ -33,7 +34,7 @@ public class WallImage {
 	private void LoadImage() {
 		
 		try {
-			img = ImageIO.read(new File("C:\\Users\\Kevin\\eclipse-workspace\\Not_Flappy_Bird\\Images\\Wall.png"));
+			img = ImageIO.read(new File("Images\\Wall.png"));
 		}catch(Exception ex) {
 			ex.printStackTrace();
 		}
@@ -46,7 +47,7 @@ public class WallImage {
 		
 	}
 	
-	public void wallMovement() {
+	public void wallMovement(CoinImage coin) {
 		
 		X+=speed;//600 for 1 wall, 900 for 2. Wall => go to 0
 		
@@ -54,6 +55,11 @@ public class WallImage {
 			X = GamePanel.WIDTH;
 			Y=r.nextInt(GamePanel.HEIGHT-400)+200;
 			height= GamePanel.HEIGHT-Y;
+			coin.setVisible(true);
+			coin.setX(X); // Assuming you have a setX method in CoinImage
+			coin.setY(Y - (gap/2)); // Adjust Y position if necessary
+			
+			// TODO Auto-generated method stub
 			
 		}
 		
@@ -70,7 +76,7 @@ public class WallImage {
 					ex.printStackTrace();
 				}
 				BirdImage.reset();
-				wall_Reset();
+				wall_Reset(coin);
 			}else {
 				//close window
 				JFrame frame = MainBird.getWindow();
@@ -83,13 +89,14 @@ public class WallImage {
 		
 	}
 
-	private void wall_Reset() {
+	private void wall_Reset(CoinImage coin) {
 		
 		Y=r.nextInt(GamePanel.HEIGHT-400)+200;
 		height= GamePanel.HEIGHT -Y;
+		coin.setY(Y - (gap/2)); // Adjust Y position if necessary
 		GamePanel.GameOver= true;
 		
-		// TODO Auto-generated method stub
+
 		
 	}
 

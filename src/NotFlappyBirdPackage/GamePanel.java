@@ -31,6 +31,8 @@ public class GamePanel extends JPanel{
 	
 	WallImage wi = new WallImage(GamePanel.WIDTH);
 	WallImage wi2 =new WallImage(GamePanel.WIDTH+(GamePanel.WIDTH/2));
+	CoinImage coinForWi = new CoinImage(wi);
+	CoinImage coinForWi2 = new CoinImage(wi2);
 	
 	
 	public GamePanel() {
@@ -64,9 +66,12 @@ public class GamePanel extends JPanel{
 		bi.drawBird(g);
 		wi.drawWall(g);
 		wi2.drawWall(g);
+		coinForWi.drawCoin(g);
+        coinForWi2.drawCoin(g);
 		
 		g.setFont(new Font("Tahoma", Font.BOLD, 40));
-		g.drawString("Score "+score, WIDTH/2, 100);
+		g.drawString("Score "+score, 200, 100);
+		g.drawString("Coins: " + CoinImage.getCoinCount(), 20, 700);
 		
 		if(starting) {
 			g.setFont(new Font("Tahoma", Font.BOLD, 150));
@@ -76,12 +81,16 @@ public class GamePanel extends JPanel{
 	
 	public void Move() {
 		bi.birdMovement();
-		wi.wallMovement();
-		wi2.wallMovement();
+		wi.wallMovement(coinForWi);
+		wi2.wallMovement(coinForWi2);
+		coinForWi.moveCoin();
+        coinForWi2.moveCoin();
 		
 		if(GameOver) {
 			wi.X=GamePanel.WIDTH;
 			wi2.X= GamePanel.WIDTH+(GamePanel.WIDTH/2);
+			coinForWi.setX(wi.X);
+			coinForWi2.setX(wi2.X);
 			GameOver=false;
 		}
 		

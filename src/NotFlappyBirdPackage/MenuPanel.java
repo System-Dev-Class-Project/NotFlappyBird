@@ -5,6 +5,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.InputStream;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
@@ -36,7 +37,7 @@ public class MenuPanel extends JPanel{
 	private void LoadImage() {
 		
 		try {
-			img = ImageIO.read(new File("C:\\Users\\Kevin\\eclipse-workspace\\Not_Flappy_Bird\\Images\\Menu.png"));
+			img = ImageIO.read(new File("Images\\Menu.png"));
 		}catch(Exception ex) {
 			ex.printStackTrace();
 		}
