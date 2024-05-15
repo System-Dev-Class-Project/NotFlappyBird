@@ -61,7 +61,7 @@ public class MenuPanel extends JPanel {
 	private void LoadImage () {
 		
 		try {
-			img = ImageIO.read(new File("C:/Users/joeki/eclipse-workspace/FlappyScuffedDeluxe/Images/pixelartbackground.png"));
+			img = ImageIO.read(new File("Images/pixelartbackground.png"));
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}

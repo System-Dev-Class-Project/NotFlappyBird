@@ -9,7 +9,7 @@ import javax.imageio.ImageIO;
 public class CoinImage {
     private BufferedImage coinImg;
     public int x, y;
-    private final int diameter = 30; // Size of the coin
+    private final int diameter = 25; // Size of the coin
     private boolean visible = true; // Coin visibility
     private static int coinCount = 0; //Coin count
 
@@ -21,7 +21,7 @@ public class CoinImage {
 
     private void loadCoinImage() {
         try {
-            coinImg = ImageIO.read(new File("C:/Users/joeki/eclipse-workspace/FlappyScuffedDeluxe/Images/Coin.png"));
+            coinImg = ImageIO.read(new File("Images/Coin.png"));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -50,7 +50,7 @@ public class CoinImage {
         	coinCount=0;
         }
         
-        if (coin.intersects(BirdImage.getBirdRect()) && visible) {
+        if (coin.intersects(BirdTestAnimation.getBirdRect()) && visible) {
             visible = false; // Make the coin disappear
             coinCount++; // Increase the coin count
             //TotalCoins+=coinCount;

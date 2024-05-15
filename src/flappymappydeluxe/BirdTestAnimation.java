@@ -37,8 +37,8 @@ package flappymappydeluxe;
 	    private void LoadImages() {
 	        frames = new BufferedImage[2]; // Two frames for wing up and wing down
 	        try {
-	            frames[0] = ImageIO.read(new File("C:/Users/joeki/eclipse-workspace/FlappyScuffedDeluxe/Images/redbird-midflap.png")); // Frame with wings up
-	            frames[1] = ImageIO.read(new File("C:/Users/joeki/eclipse-workspace/FlappyScuffedDeluxe/Images/redbirdnewflap.png")); // Frame with wings down
+	            frames[0] = ImageIO.read(new File("Images/redbird-midflap.png")); // Frame with wings up
+	            frames[1] = ImageIO.read(new File("Images/redbirdnewflap.png")); // Frame with wings down
 	        } catch (Exception ex) {
 	            ex.printStackTrace();
 	        }

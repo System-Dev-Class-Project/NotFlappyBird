@@ -26,7 +26,7 @@ public class BirdImage {
 	
 	private void LoadImage() {
 		try {
-			img = ImageIO.read(new File("C:/Users/joeki/eclipse-workspace/FlappyScuffedDeluxe/Images/redbird-midflap.png"));
+			img = ImageIO.read(new File("Images/redbird-midflap.png"));
 		}catch (Exception ex) {
 			ex.printStackTrace();
 		}
@@ -73,7 +73,7 @@ public class BirdImage {
 	}
 	
 	public static Rectangle getBirdRect() { //we need static, thats why all the variables here need to be static as well
-		Rectangle birdRect = new Rectangle (x, y, bird_dia, 35);
+		Rectangle birdRect = new Rectangle (x, y, bird_dia, 36);
 		return birdRect;
 	}
 	
