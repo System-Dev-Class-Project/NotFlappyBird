@@ -31,7 +31,7 @@ public class WallImage {
 
 	private void LoadImage() {
 		try {
-			img = ImageIO.read((new File("C:/Users/joeki/eclipse-workspace/FlappyScuffedDeluxe/Images/pipe-greendoublefinal.png")));
+			img = ImageIO.read((new File("Images/pipe-greendoublefinal.png")));
 		}catch (Exception ex) {
 			ex.printStackTrace();
 

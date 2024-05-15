@@ -23,6 +23,7 @@ public class GamePanel extends JPanel {
 	public static int score = 0;
 	
 	
+	
 	public static final int WIDTH =600;
 	public static final int HEIGHT =800;
 	
@@ -56,7 +57,7 @@ public class GamePanel extends JPanel {
 		
 		try {
 	
-			img = ImageIO.read(new File ("C:/Users/joeki/eclipse-workspace/FlappyScuffedDeluxe/Images/origbigtruesize.png"));
+			img = ImageIO.read(new File ("Images/origbigtruesize.png"));
 		}catch(Exception ex) {
 	ex.printStackTrace();
 	}
