@@ -13,20 +13,21 @@ import javax.swing.JPanel;
 
 public class GamePanel extends JPanel {
 
-	/**
+	/**The gamepanel class visualizes the game window itself, here we bring together the bird class, wall class, coin class and other
+	 * to be implemented classes that have any in game utility. 
 	 * 
 	 */
+	
 	private static final long serialVersionUID = 1L;
 	
 	public static boolean GameOver = false;
 	
 	public static int score = 0;
 	
-	
-	
 	public static final int WIDTH =600;
 	public static final int HEIGHT =800;
 	
+	int coinCount = CoinImage.coinCount;
 	
 	private int xCoor=0;
 	private BufferedImage img;
@@ -77,7 +78,7 @@ public class GamePanel extends JPanel {
 		g.setFont(new Font("Tahoma", Font.BOLD, 40));   //displays score
 		g.drawString(("Score "+score), 250, 75); //positions the displayed count
 		g.drawString("Coins: " + CoinImage.getCoinCount(), 20, 700);
-		
+		g.drawString("Total Coins: " + CoinImage.loadCoinCount(), 20, 600);
 		
 	
 	}
