@@ -14,7 +14,7 @@ public class CoinImage {
     private static int coinCount = 0; //Coin count
 
     public CoinImage(WallImage wall) {
-        this.x = wall.X;
+        this.x = wall.X+10;
         this.y = wall.Y-(WallImage.gap/2);
         loadCoinImage();
     }
