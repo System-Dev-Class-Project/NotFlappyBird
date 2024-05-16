@@ -69,7 +69,7 @@ public class WallImage {
 				} catch(Exception ex) {
 					ex.printStackTrace();
 				}
-				BirdImage.reset(); //resets the bird to its initial starting coordinates
+				BirdTestAnimation.reset(); //resets the bird to its initial starting coordinates
 				
 			} else {
 				JFrame frame= FlappyClass.getWindow();

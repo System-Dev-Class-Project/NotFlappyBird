@@ -22,7 +22,7 @@ public class Button {
         this.width = width;
         this.height = height;
         this.text = text;
-        this.bgColor = Color.LIGHT_GRAY; // Minecraft-like color
+        this.bgColor = Color.white; // Minecraft-like color
         this.textColor = Color.BLACK;
         this.font = new Font("Minecraft", Font.BOLD, 16); // Set to a Minecraft-style font if available
     }
@@ -34,7 +34,7 @@ public class Button {
         g.fillRect(x, y, width, height);
         
         // Set the color for the button border
-        g.setColor(Color.BLACK); // Minecraft buttons have black borders
+        g.setColor(Color.LIGHT_GRAY); 
         g.drawRect(x, y, width, height);
         
         // Calculate the position to center the text

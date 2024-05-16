@@ -53,7 +53,7 @@ package flappymappydeluxe;
 	            speed += accel;
 	            y += speed;
 	        } else {
-	            boolean option = GamePanel.popUpMessage();
+	            boolean option = GamePanel.popUpMessage(); 
 
 	            if (option) {
 	                try {
@@ -90,7 +90,7 @@ package flappymappydeluxe;
 
 	    public static void reset() {
 	        speed = 2;
-	        y = GamePanel.HEIGHT / 2;
+	        y = GamePanel.HEIGHT /2;
 	        GamePanel.GameOver = true;
 	        GamePanel.score = 0;
 	    }

@@ -17,17 +17,20 @@ public class MenuPanel extends JPanel {
 	private static final long serialVersionUID = 1L; 
 	
 	private Button startButton;  // initializing a button to start the game with
-	private BufferedImage img;    
+	private BufferedImage img;  
+	private BufferedImage img1;  
+	private BufferedImage img2;
 	public boolean StartingPoint = false;
 	private int imgX = 0; // Initial x-coordinate of the image
 	
-	//whitescreen bug
+	
+	
 	public MenuPanel () {
 		LoadImage();
 		Timer timer = new Timer(10, new ActionListener() {
 	        public void actionPerformed(ActionEvent e) {
 	            // Update background position
-	            imgX += -3;
+	            imgX += -2;
 
 	            // Wrap background image to create continuous movement
 	            if (imgX >= getWidth()) {
@@ -41,7 +44,7 @@ public class MenuPanel extends JPanel {
 	    });
 	    timer.start();
 
-	
+	   
 		startButton = new Button(200,200,150,50,"Play");
 		
 		this.addMouseListener(new MouseAdapter() {
@@ -62,6 +65,8 @@ public class MenuPanel extends JPanel {
 		
 		try {
 			img = ImageIO.read(new File("Images/pixelartbackground.png"));
+			img1 = ImageIO.read(new File("Images/CoinBig.png"));
+			img2 = ImageIO.read(new File("Images/NotFlappyBirdText.png"));
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
@@ -70,12 +75,18 @@ public class MenuPanel extends JPanel {
 	public void paint(Graphics g) {
 		super.paint(g);
 		g.drawImage(img, imgX, 0, null);
-		g.drawImage(img,  imgX+2048,  0,  null); //fixes white screen issues after traveling full length
+		g.drawImage(img2, 50 ,50, null);
 		startButton.draw(g);
-		 if (imgX ==-2048) {
-	           g.drawImage(img, imgX + img.getWidth(null), 0, null);
-	           g.drawImage(img,  imgX+2048,  0,  null);
+		//g.drawImage(img1, 75, 650, null);  coin 
+		if (imgX + img.getWidth() < getWidth()) {
+	        g.drawImage(img, imgX + img.getWidth(), 0, null);
+	        
 	        }
+		if (imgX <= -img.getWidth()) {
+	        imgX = 0; }
+	        // Reset imgX to repeat the background image
+	       
+		
 		 
 	}
 	//this concerns the menu panel background, we decided that it would look more lively if the background moved here as well.
@@ -90,6 +101,8 @@ public class MenuPanel extends JPanel {
 	
 	
 }
+
+
 	
 
 	
