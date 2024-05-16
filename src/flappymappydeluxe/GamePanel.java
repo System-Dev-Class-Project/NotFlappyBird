@@ -91,8 +91,8 @@ public class GamePanel extends JPanel {
 		if (GameOver) {        //if the GameOver variable is true, we reset the wall coordinates and reset GameOver to false               
 			wi.X=GamePanel.WIDTH;
 			wi2.X=GamePanel.WIDTH+(GamePanel.WIDTH/2);
-			coinForWi.setX(wi.X);
-			coinForWi2.setX(wi2.X);
+			coinForWi.setX(wi.X+10);
+			coinForWi2.setX(wi2.X+10);
 			GameOver = false;
 		}
 		

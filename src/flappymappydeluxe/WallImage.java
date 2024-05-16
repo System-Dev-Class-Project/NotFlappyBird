@@ -54,7 +54,7 @@ public class WallImage {
 			Y =r.nextInt(GamePanel.HEIGHT-400)+200; 
 			height= GamePanel.HEIGHT-Y; 
 			coin.setVisible(true);
-			coin.setX(X); // Assuming you have a setX method in CoinImage
+			coin.setX(X+15); // Assuming you have a setX method in CoinImage
 			coin.setY(Y - (gap/2)); // Adjust Y position if necessary
 		}
 		Rectangle lowerRect = new Rectangle(X, Y, width_Wall, height);
