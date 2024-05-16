@@ -22,7 +22,7 @@ package flappymappydeluxe;
 	    private int animationSpeed = 8; // Adjust this to control the speed of animation
 	    private int frameCounter = 0; // Counter to control animation speed
 
-	    private static int bird_dia = 35; // Diameter needs to be 36 because of the counter, but it works with 35??
+	    private static int bird_dia = 36; // Diameter needs to be 36 because of the counter, but it works with 35??
 	    public static int x = (GamePanel.WIDTH / 2) - bird_dia / 2;
 	    public static int y = GamePanel.HEIGHT / 2; // Spawns the bird in the middle of the window
 
@@ -94,6 +94,11 @@ package flappymappydeluxe;
 	        GamePanel.GameOver = true;
 	        GamePanel.score = 0;
 	    }
+
+		public int getX() {
+			// TODO Auto-generated method stub
+			return x;
+		}
 	}
 	
 	

@@ -48,7 +48,7 @@ public class CoinImage {
     }
     
     public void moveCoin() {
-        x += WallImage.speed; // Move the coin at the same speed as the wall
+        x += WallImage.speed-(GamePanel.score/4); // Move the coin at the same speed as the wall
         
         Rectangle coin=  new Rectangle(x, y, diameter, diameter);
         if (x < -diameter) { // If the coin moves off-screen

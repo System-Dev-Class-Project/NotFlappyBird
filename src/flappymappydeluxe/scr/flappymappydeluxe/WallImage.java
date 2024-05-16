@@ -15,9 +15,10 @@ public class WallImage {
 	private Random r= new Random();
 	public int X;
 	public int Y =r.nextInt(GamePanel.HEIGHT-400)+200;    //max 600 min 200
-	private int width_Wall = 55;
+	public int width_Wall = 55;
 	private int height = GamePanel.HEIGHT-Y;
 	public static int gap = 200;
+	public boolean hasPassed = false;
 	
 	public static int speed = -6; //public static to move the game background at the same speed
 	
@@ -43,19 +44,24 @@ public class WallImage {
 		g.drawImage(img, X, (-GamePanel.HEIGHT+(Y-gap)),null); //upper wall
 	}
 	
-	public void wallMovement(CoinImage coin) { //resetting the wall position after it leaves the screen on the left
+	public void wallMovement(CoinImage coin, BirdTestAnimation bird) { //resetting the wall position after it leaves the screen on the left
 		
-		X+=speed; //600 -> 600-6, 600-6-6, 600-6-6-6  [...] 0 , -6  ,...
+		X+=speed-(GamePanel.score/4); //600 -> 600-6, 600-6-6, 600-6-6-6  [...] 0 , -6  ,...
 		          //900 -> 900-6, 900-6-6, 900-6-6-6  [...] 0 , -6  ,...
 		
+		 if (!hasPassed && X < bird.getX()) {
+		        hasPassed = true;
+		 }
 		
 		if (X<=-width_Wall) {
 			X = GamePanel.WIDTH;
 			Y =r.nextInt(GamePanel.HEIGHT-400)+200; 
 			height= GamePanel.HEIGHT-Y; 
 			coin.setVisible(true);
-			coin.setX(X+15); // Assuming you have a setX method in CoinImage
-			coin.setY(Y - (gap/2)); // Adjust Y position if necessary
+			coin.setX(X+15); // Adjust X coin position
+			coin.setY(Y - (gap/2)); // Adjust Y position 
+			GamePanel.score+=1;
+			
 		}
 		Rectangle lowerRect = new Rectangle(X, Y, width_Wall, height);
 		Rectangle upperRect = new Rectangle(X, 0, width_Wall, GamePanel.HEIGHT-(height+gap));
@@ -76,9 +82,10 @@ public class WallImage {
 				frame.dispose(); //releases all of the native resources displayed in the window, essentially closing it
 				FlappyClass.timer.stop();
 			}
-			
-			
 		}
+			
+			
+		
 	}
 	//resets the walls and sets game over to true
 	private void wall_Reset(CoinImage coin) {                         
@@ -86,6 +93,7 @@ public class WallImage {
 		height = GamePanel.HEIGHT-Y;
 		coin.setY(Y - (gap/2)); // Adjust Y position if necessary
 		GamePanel.GameOver = true;
+		GamePanel.hasPassed = true;
 		
 	}
 }

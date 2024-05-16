@@ -23,6 +23,7 @@ public class GamePanel extends JPanel {
 	public static boolean GameOver = false;
 	
 	public static int score = 0;
+	public static boolean hasPassed = true;
 	
 	public static final int WIDTH =600;
 	public static final int HEIGHT =800;
@@ -84,8 +85,8 @@ public class GamePanel extends JPanel {
 	}
 	public void Move() {
 		bi.birdMovement();
-		wi.wallMovement(coinForWi);
-		wi2.wallMovement(coinForWi2);
+		wi.wallMovement(coinForWi, bi);
+		wi2.wallMovement(coinForWi2, bi);
 		coinForWi.moveCoin();
         coinForWi2.moveCoin();
 		 
@@ -95,6 +96,7 @@ public class GamePanel extends JPanel {
 			coinForWi.setX(wi.X+10);
 			coinForWi2.setX(wi2.X+10);
 			GameOver = false;
+			hasPassed = true;
 		}
 		
 		xCoor+= WallImage.speed; //we move the background with the same speed as the walls
@@ -103,15 +105,25 @@ public class GamePanel extends JPanel {
 			xCoor=0;
 		}
 	
+	
+		if (!wi.hasPassed && wi.X <= BirdImage.x) {  //for the 1st column
+	        score++;
+	        wi.hasPassed = false;
+	    }
 
+
+
+	    // Gradually increase the speed based on the score
+	    WallImage.speed -= (score / 100);
+
+	    // Ensure that the speed does not become too fast or too slow
+	    if (WallImage.speed < -10) {
+	        WallImage.speed = -10; // Set a maximum speed limit
+	    } else if (WallImage.speed > -2) {
+	        WallImage.speed = -2; // Set a minimum speed limit
+	    }
+	    }
 	
-	
-	if (wi.X==BirdImage.x || wi2.X==BirdImage.x) {  //whenever the bird passes the tubes, the score increases by one!
-		score+=1;                                  //the code will only execute properly if bird diameter is 36!!! 
-		                                 
-		}
-	
-	} 
 	public static boolean popUpMessage() {  //Game Over pop up message with text plus the score
 		int result = JOptionPane.showConfirmDialog(null, "Game Over, your score is "+ GamePanel.score+ "\n Do you want to restart the game?", "Game Over", JOptionPane.YES_NO_OPTION);
 		if (result== JOptionPane.YES_OPTION) {
