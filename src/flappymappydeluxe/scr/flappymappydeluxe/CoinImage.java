@@ -3,20 +3,30 @@ package flappymappydeluxe;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
-import javax.imageio.ImageIO;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
+// the coinImaage class introduces coins that the player can collect in order to buy things in the shop. We save the coins collected in total so that the player can gather many coins over 
 public class CoinImage {
+	
+	private static final String FILENAME = "coin_count.txt"; //saves the coin count for every game
     private BufferedImage coinImg;
     public int x, y;
     private final int diameter = 25; // Size of the coin
     private boolean visible = true; // Coin visibility
-    private static int coinCount = 0; //Coin count
+    static int coinCount = 0; //Coin count
+    static int TotalCoins;
 
     public CoinImage(WallImage wall) {
         this.x = wall.X+10;
         this.y = wall.Y-(WallImage.gap/2);
         loadCoinImage();
+        TotalCoins = CoinImage.loadCoinCount(); //we want to save all the coins the player collected in total across multiple rounds
     }
 
     private void loadCoinImage() {
@@ -48,12 +58,14 @@ public class CoinImage {
         if (GamePanel.GameOver) {
         	visible = true;
         	coinCount=0;
+        	saveCoinCount(TotalCoins);
         }
         
         if (coin.intersects(BirdTestAnimation.getBirdRect()) && visible) {
             visible = false; // Make the coin disappear
             coinCount++; // Increase the coin count
-            //TotalCoins+=coinCount;
+            CoinImage.saveCoinCount(TotalCoins);
+            TotalCoins+=1; // we save the amount of coins collected in total across games
         }
     }
 
@@ -90,4 +102,26 @@ public class CoinImage {
 
 		return Integer.toString(coinCount);
 	}
+	//this method gets the saved coin count from the txt file if it exists
+	public static int loadCoinCount() {
+        try (BufferedReader reader = new BufferedReader(new FileReader(FILENAME))) {
+            String line = reader.readLine();
+            if (line != null) {
+                return Integer.parseInt(line);
+            }
+        } catch (IOException e) {
+            // Handle file reading errors
+            e.printStackTrace();
+        }
+        return 0; // Default to 0 if file doesn't exist or error occurs
+    }
+	//this method saves the coin count 
+	public static void saveCoinCount(int coinCount) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILENAME))) {
+            writer.write(Integer.toString(coinCount));
+        } catch (IOException e) {
+            // Handle file writing errors
+            e.printStackTrace();
+        }
+    }
 }
