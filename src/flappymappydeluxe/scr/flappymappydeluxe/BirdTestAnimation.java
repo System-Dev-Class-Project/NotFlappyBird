@@ -6,8 +6,9 @@ package flappymappydeluxe;
 	import java.awt.Rectangle;
 	import java.awt.image.BufferedImage;
 	import java.io.File;
+import java.io.IOException;
 
-	import javax.imageio.ImageIO;
+import javax.imageio.ImageIO;
 	import javax.swing.JFrame;
 	/**
 	 * The following class is the first test for simple animations for the bird, based on two separate images
@@ -22,7 +23,9 @@ package flappymappydeluxe;
 	    private int animationSpeed = 8; // Adjust this to control the speed of animation
 	    private int frameCounter = 0; // Counter to control animation speed
 
-	    private static int bird_dia = 36; // Diameter needs to be 36 because of the counter, but it works with 35??
+	    private static int bird_dia = 36; 
+		private static int mushroom_dia = 10;
+    	private boolean mushroom = false;
 	    public static int x = (GamePanel.WIDTH / 2) - bird_dia / 2;
 	    public static int y = GamePanel.HEIGHT / 2; // Spawns the bird in the middle of the window
 
@@ -30,18 +33,38 @@ package flappymappydeluxe;
 	    private int accel = 1;
 
 	    public BirdTestAnimation() {
-	        LoadImages();
+	        LoadImages(mushroom);
 	        currentFrameIndex = 0;
+			this.x=x;
+			this.y=y;
 	    }
 
-	    private void LoadImages() {
-	        frames = new BufferedImage[2]; // Two frames for wing up and wing down
-	        try {
-	            frames[0] = ImageIO.read(new File("Images/redbird-midflap.png")); // Frame with wings up
-	            frames[1] = ImageIO.read(new File("Images/redbirdnewflap.png")); // Frame with wings down
-	        } catch (Exception ex) {
-	            ex.printStackTrace();
-	        }
+	    private void LoadImages(boolean mushroom) {
+			this.mushroom = mushroom;
+			 if (mushroom) {
+				bird_dia = mushroom_dia;
+				// Load the smaller bird images
+				frames = new BufferedImage[2];
+				try {
+					frames[0] = ImageIO.read(new File("src\\flappymappydeluxe\\Images\\redbird-midflap - Kopie.png"));
+					frames[1] = ImageIO.read(new File("src\\flappymappydeluxe\\Images\\redbirdnewflap - Kopie.png"));
+				} catch (IOException e) {
+					System.out.println("small bird not found");
+					e.printStackTrace();
+				}
+			} else {
+				bird_dia = 36;
+				// Load the normal bird images
+				frames = new BufferedImage[2];
+				try {
+					frames[0] = ImageIO.read(new File("src\\flappymappydeluxe\\Images\\redbird-midflap.png"));
+					frames[1] = ImageIO.read(new File("src\\flappymappydeluxe\\Images\\redbirdnewflap.png"));
+				} catch (IOException e) {
+					System.out.println("bird not found");
+					e.printStackTrace();
+				}
+			}
+
 	    }
 
 	    public void drawBird(Graphics g) { 
@@ -99,6 +122,35 @@ package flappymappydeluxe;
 			// TODO Auto-generated method stub
 			return x;
 		}
+
+		public boolean isMushroom() {
+			return mushroom;
+		}
+
+		public void setMushroom(boolean b){
+			mushroom = b;
+			LoadImages(mushroom);
+		}
+
+		public int getDiameter() {
+			// TODO Auto-generated method stub
+			return bird_dia;
+		}
+
+        public int getWidth() {
+            // TODO Auto-generated method stub
+            return 36;
+        }
+
+        public int getHeight() {
+            // TODO Auto-generated method stub
+           return 36;
+        }
+
+        public int getY() {
+            // TODO Auto-generated method stub
+           return y;
+        }
 	}
 	
 	
