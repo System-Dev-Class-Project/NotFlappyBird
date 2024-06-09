@@ -6,6 +6,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
@@ -19,12 +21,9 @@ public class GamePanel extends JPanel {
 	 */
 	
 	private static final long serialVersionUID = 1L;
-	
 	public static boolean GameOver = false;
-	
 	public static int score = 0;
-	public static boolean hasPassed = true;
-	
+	public static boolean hasPassed = false;
 	public static final int WIDTH =600;
 	public static final int HEIGHT =800;
 	
@@ -36,8 +35,14 @@ public class GamePanel extends JPanel {
 	BirdTestAnimation bi= new BirdTestAnimation();
 	WallImage wi = new WallImage(GamePanel.WIDTH);
 	WallImage wi2 = new WallImage (GamePanel.WIDTH+(GamePanel.WIDTH/2));
-	CoinImage coinForWi = new CoinImage(wi);
-	CoinImage coinForWi2 = new CoinImage(wi2);
+	CoinImage coinForWi = new CoinImage(wi, bi);
+	CoinImage coinForWi2 = new CoinImage(wi2, bi);
+	InvincibilityPower invPower = new InvincibilityPower(wi);
+	MushroomPowerUp muPower= new MushroomPowerUp(wi);
+	HeartsPowerUp heartPower = new HeartsPowerUp(wi);
+	MagnetPowerUp magnetPower = new MagnetPowerUp(bi);
+	List<CoinImage> coins = new ArrayList<>();
+   
 	
 	public GamePanel() {
 		LoadImage();
@@ -47,19 +52,16 @@ public class GamePanel extends JPanel {
 				bi.goUpwards(); //bird moves up
 			}
 		});
-		
-		
+		coins.add(coinForWi);
+		coins.add(coinForWi2);
 		
 	}
 	
 	private void LoadImage() {
 		
-		
-		
-		
 		try {
 	
-			img = ImageIO.read(new File ("Images/origbigtruesize.png"));
+			img = ImageIO.read(new File ("src\\flappymappydeluxe\\Images\\origbigtruesize.png"));
 		}catch(Exception ex) {
 	ex.printStackTrace();
 	}
@@ -75,20 +77,30 @@ public class GamePanel extends JPanel {
 		wi2.drawWall(g);
 		coinForWi.drawCoin(g);
         coinForWi2.drawCoin(g);
+		invPower.drawPowerUp(g);
+		muPower.drawPowerUp(g);
+		heartPower.drawPowerUp(g);
+		magnetPower.drawPowerUp(g);
 		
 		g.setFont(new Font("Tahoma", Font.BOLD, 40));   //displays score
 		g.drawString(("Score "+score), 250, 75); //positions the displayed count
-		g.drawString("Coins: " + CoinImage.getCoinCount(), 20, 700);
+		g.drawString("Coins: " + CoinImage.getCoinCount()+"heart"+HeartsPowerUp.getHearts(), 20, 700);
 		g.drawString("Total Coins: " + CoinImage.loadCoinCount(), 20, 600);
 		
 	
 	}
 	public void Move() {
 		bi.birdMovement();
-		wi.wallMovement(coinForWi, bi);
-		wi2.wallMovement(coinForWi2, bi);
+		wi.wallMovement(coinForWi, bi, invPower);
+		wi2.wallMovement(coinForWi2, bi, invPower);
 		coinForWi.moveCoin();
         coinForWi2.moveCoin();
+		invPower.movePowerUp(wi);
+		muPower.movePowerUp(wi, bi);
+		heartPower.movePowerUp(wi, bi);
+		magnetPower.movePowerUp(wi, bi);
+		magnetPower.attractObjects(coins);
+		//heartPower.movePowerUp(wi, bi);
 		 
 		if (GameOver) {        //if the GameOver variable is true, we reset the wall coordinates and reset GameOver to false               
 			wi.X=GamePanel.WIDTH;
@@ -96,7 +108,9 @@ public class GamePanel extends JPanel {
 			coinForWi.setX(wi.X+10);
 			coinForWi2.setX(wi2.X+10);
 			GameOver = false;
-			hasPassed = true;
+			wi.hasPassed = false;
+			invPower.setVisible=false;
+			muPower.setVisible=false;
 		}
 		
 		xCoor+= WallImage.speed; //we move the background with the same speed as the walls

@@ -64,9 +64,9 @@ public class MenuPanel extends JPanel {
 	private void LoadImage () {
 		
 		try {
-			img = ImageIO.read(new File("Images/pixelartbackground.png"));
-			img1 = ImageIO.read(new File("Images/CoinBig.png"));
-			img2 = ImageIO.read(new File("Images/NotFlappyBirdText.png"));
+			img = ImageIO.read(new File("src\\flappymappydeluxe\\Images\\pixelartbackground.png"));
+			img1 = ImageIO.read(new File("src\\flappymappydeluxe\\Images\\CoinBig.png"));
+			img2 = ImageIO.read(new File("src\\flappymappydeluxe\\Images\\NotFlappyBirdText.png"));
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}

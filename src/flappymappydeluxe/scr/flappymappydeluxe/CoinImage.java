@@ -12,7 +12,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 // the coinImaage class introduces coins that the player can collect in order to buy things in the shop. We save the coins collected in total so that the player can gather many coins over 
-public class CoinImage {
+public class CoinImage implements AttractableObject{
 	
 	private static final String FILENAME = "coin_count.txt"; //saves the coin count for every game
     private BufferedImage coinImg;
@@ -21,17 +21,19 @@ public class CoinImage {
     private boolean visible = true; // Coin visibility
     static int coinCount = 0; //Coin count
     static int TotalCoins;
+    private BirdTestAnimation player;
 
-    public CoinImage(WallImage wall) {
+    public CoinImage(WallImage wall, BirdTestAnimation player) {
         this.x = wall.X+10;
         this.y = wall.Y-(WallImage.gap/2);
         loadCoinImage();
         TotalCoins = CoinImage.loadCoinCount(); //we want to save all the coins the player collected in total across multiple rounds
+        this.player=player;
     }
 
     private void loadCoinImage() {
         try {
-            coinImg = ImageIO.read(new File("Images/Coin.png"));
+            coinImg = ImageIO.read(new File("src\\flappymappydeluxe\\Images\\Coin.png"));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -91,6 +93,13 @@ public class CoinImage {
 		return diameter;
 	}
 
+    public int getX() {
+        return x;
+    }   
+
+    public int getY() {
+        return y;
+    }   
 	public void setY(int i) {
 		y=i;
 		// TODO Auto-generated method stub
@@ -124,4 +133,22 @@ public class CoinImage {
             e.printStackTrace();
         }
     }
+
+    public Rectangle getRect() {
+        // This method returns the bounding rectangle of the coin,
+        // which is useful for collision detection.
+        return new Rectangle(x, y, diameter, diameter);
+    }
+
+    @Override
+    public void moveToPlayer(int x, int y) {
+    // Assuming the player's position is given by player.getX() and player.getY(),
+    // and the coin should move towards the player.
+    // This method will adjust the coin's position to move towards the player.
+    // The movement logic can be adjusted based on game requirements.
+    // Here, we simply move the coin directly towards the player's position.
+    // This could be enhanced with more complex logic for smoother movement.
+        this.x = player.getX() - (diameter / 2); // Center the coin relative to the player's position
+        this.y = player.getY() - (diameter / 2);
+}
 }
