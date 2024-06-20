@@ -1,0 +1,109 @@
+package flappymappydeluxe;
+
+import java.awt.Graphics;
+import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import javax.imageio.ImageIO;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
+public class BirdTestAnimation {
+
+    private BufferedImage[] frames; // Array to hold bird frames
+    private int currentFrameIndex; // Index of the current frame
+    private int animationSpeed = 8; // Adjust this to control the speed of animation
+    private int frameCounter = 0; // Counter to control animation speed
+
+    private static int bird_dia = 36; // Diameter needs to be 36 because of the counter, but it works with 35??
+    public static int x = (GamePanel.WIDTH / 2) - bird_dia / 2;
+    public static int y = GamePanel.HEIGHT / 2; // Spawns the bird in the middle of the window
+    
+    public static AudioPlayer audioPlayer;
+
+    private static int speed = 2;
+    private int accel = 1;
+
+    public BirdTestAnimation() {
+        LoadImages();
+        currentFrameIndex = 0;
+    }
+
+    private void LoadImages() {
+        frames = new BufferedImage[2]; // Two frames for wing up and wing down
+        try {
+            frames[0] = ImageIO.read(new File("Images/redbird-midflap.png")); // Frame with wings up
+            frames[1] = ImageIO.read(new File("Images/redbirdnewflap.png")); // Frame with wings down
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public void drawBird(Graphics g) {
+        g.drawImage(frames[currentFrameIndex], x, y, null);
+    }
+
+    public void setBirdImages(BufferedImage birdImage1, BufferedImage birdImage2) { //for the later bought shop skins, so that both new bird image 
+        frames[0] = birdImage1;
+        frames[1] = birdImage2;
+    }
+
+    public void birdMovement() {
+        if (y >= 0 && y <= GamePanel.HEIGHT) {
+            speed += accel;
+            y += speed;
+        } else {
+        	int option = GamePanel.popUpMessage();
+
+            if (option == 0) {  //reset game if yes is clicked
+                try {
+                    Thread.sleep(500);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+                reset();
+            } else if (option == 2) {    //close game if no is clicked
+            	 JFrame frame = FlappyClass.getWindow();
+                 MenuPanel.audioPlayer.stop();    //stops the music from playing when no is pressed after falling out of bounds. Also inserted in the wallImage class in the case of wall collision
+                 frame.dispose();
+                 FlappyClass.timer.stop();
+            }
+            else {    //last possible option is to go back to main menu 
+                // Go back to main menu
+            	MenuPanel.switchMusic("Music/1-01. Main Theme (Title Screen).wav");
+            	reset();
+            	FlappyClass.timer.stop();
+                FlappyClass.cardLayout.show(FlappyClass.mainPanel, "menu");
+            }
+        }
+        animate(); // Call the animate method to update the bird's animation frame
+    }
+
+    public void goUpwards() {
+        speed = -17;
+    }
+
+    public static Rectangle getBirdRect() {
+        return new Rectangle(x, y, bird_dia, 35);
+    }
+
+    private void animate() {
+        frameCounter++;
+        if (frameCounter >= animationSpeed) {
+            // Toggle between frames
+            currentFrameIndex = (currentFrameIndex + 1) % frames.length;
+            frameCounter = 0;
+        }
+    }
+
+    public static void reset() {
+        speed = 2;
+        y = GamePanel.HEIGHT / 2;
+        GamePanel.GameOver = true;
+        GamePanel.score = 0;
+    }
+
+    public int getX() {
+        return x;
+    }
+}

@@ -1,0 +1,6 @@
+Original Pipe
+null
+null
+Original Pipe=true
+Original Background=true
+Original Bird=true
