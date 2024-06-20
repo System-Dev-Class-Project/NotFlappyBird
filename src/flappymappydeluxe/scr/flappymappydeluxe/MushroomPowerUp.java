@@ -6,7 +6,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import javax.imageio.ImageIO;
 
-public class MushroomPowerUp {
+public class MushroomPowerUp implements AttractableObject{
 
     private BufferedImage powerUpImg;
     private int x, y;
@@ -14,6 +14,7 @@ public class MushroomPowerUp {
     private boolean visible = false;
     private long mushroomStartTime;
     public boolean setVisible;
+    private BirdTestAnimation player;
 
 
     public MushroomPowerUp(WallImage wall) {
@@ -78,6 +79,53 @@ public class MushroomPowerUp {
         
     }
 
-
+    @Override
+    public void moveToPlayer(int x, int y) {
+        this.x = player.getX() - (diameter / 2); // Center the coin relative to the player's position
+        this.y = player.getY() - (diameter / 2);
 }
+
+    @Override
+    public Rectangle getRect() {
+        return new Rectangle(x, y, diameter, diameter);
+    }
+
+    @Override
+    public int getX() {
+        return x;
+    }
+
+    @Override
+    public int getY() {
+        return y;
+    }
+
+    @Override
+    public void setX(int i) {
+        this.x = i;
+    }
+
+    @Override
+    public void setY(int i) {
+       this.y = i;
+    }
+
+    @Override
+    public void setVisible(boolean b) {
+       visible = b;
+    }
+
+    @Override
+    public void spawn(WallImage wall) {
+        visible = true;
+        // Set the power-up position relative to the wall
+        this.x = wall.X + 10;
+        this.y = wall.Y - (WallImage.gap / 2);
+    }
+
+
+  
+}
+
+
 

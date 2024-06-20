@@ -42,6 +42,10 @@ public class GamePanel extends JPanel {
 	HeartsPowerUp heartPower = new HeartsPowerUp(wi);
 	MagnetPowerUp magnetPower = new MagnetPowerUp(bi);
 	List<CoinImage> coins = new ArrayList<>();
+	Enemy_Gumba enemyGumba = new Enemy_Gumba(bi, wi);
+	Enemy_Magic_Firebaaaall enemyFireball = new Enemy_Magic_Firebaaaall(bi, wi);
+	Enemy_Alien enemyAlien = new Enemy_Alien(bi, wi);
+	Enemy_Batman enemyBatman = new Enemy_Batman(bi, wi);	
    
 	
 	public GamePanel() {
@@ -81,6 +85,10 @@ public class GamePanel extends JPanel {
 		muPower.drawPowerUp(g);
 		heartPower.drawPowerUp(g);
 		magnetPower.drawPowerUp(g);
+		enemyGumba.drawPowerUp(g);
+		enemyFireball.drawPowerUp(g);
+		enemyAlien.drawPowerUp(g);
+		enemyBatman.drawPowerUp(g);
 		
 		g.setFont(new Font("Tahoma", Font.BOLD, 40));   //displays score
 		g.drawString(("Score "+score), 250, 75); //positions the displayed count
@@ -100,7 +108,10 @@ public class GamePanel extends JPanel {
 		heartPower.movePowerUp(wi, bi);
 		magnetPower.movePowerUp(wi, bi);
 		magnetPower.attractObjects(coins);
-		//heartPower.movePowerUp(wi, bi);
+		enemyGumba.moveEnemy(wi);
+		enemyFireball.moveEnemy(wi);
+		enemyAlien.moveEnemy(wi);
+		enemyBatman.moveEnemy(wi);
 		 
 		if (GameOver) {        //if the GameOver variable is true, we reset the wall coordinates and reset GameOver to false               
 			wi.X=GamePanel.WIDTH;

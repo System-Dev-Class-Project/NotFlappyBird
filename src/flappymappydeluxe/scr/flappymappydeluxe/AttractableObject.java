@@ -18,5 +18,9 @@ public interface AttractableObject {
 
     void setY(int i);
 
+    void setVisible(boolean b);
+
+    void spawn( WallImage wall);
+
 }
 

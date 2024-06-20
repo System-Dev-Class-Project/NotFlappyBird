@@ -142,13 +142,13 @@ public class CoinImage implements AttractableObject{
 
     @Override
     public void moveToPlayer(int x, int y) {
-    // Assuming the player's position is given by player.getX() and player.getY(),
-    // and the coin should move towards the player.
-    // This method will adjust the coin's position to move towards the player.
-    // The movement logic can be adjusted based on game requirements.
-    // Here, we simply move the coin directly towards the player's position.
-    // This could be enhanced with more complex logic for smoother movement.
         this.x = player.getX() - (diameter / 2); // Center the coin relative to the player's position
         this.y = player.getY() - (diameter / 2);
 }
+
+    @Override
+    public void spawn(WallImage wall) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'spawn'");
+    }
 }
