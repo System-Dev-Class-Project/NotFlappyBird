@@ -6,7 +6,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import javax.imageio.ImageIO;
 
-public class InvincibilityPower {
+public class InvincibilityPower implements AttractableObject{
     private BufferedImage powerUpImg;
     public int x, y;
     private final int diameter = 25; // Size of the power-up
@@ -14,6 +14,7 @@ public class InvincibilityPower {
     private static boolean invincible = false; // Invincibility status
     private long invincibleStartTime;
     private WallImage wall;
+    private BirdTestAnimation player;  
     public boolean setVisible;
     private static int wallCounter = 0;
 
@@ -62,7 +63,7 @@ public class InvincibilityPower {
         }
         
         
-        if (GamePanel.score % 10==0) {
+        if (GamePanel.score % 2==0) {
             visible = true;
             // Set the power-up position relative to the wall
             this.x = wall.X + 10;
@@ -109,9 +110,40 @@ public class InvincibilityPower {
         // TODO Auto-generated method stub
         invincible = false;
     }
-    
+
+    @Override
+    public void moveToPlayer(int x, int y) {
+        this.x = player.getX() - (diameter / 2); // Center the coin relative to the player's position
+        this.y = player.getY() - (diameter / 2);
+}
+
+    @Override
+    public Rectangle getRect() {
+        return new Rectangle(x, y, diameter, diameter);
+    }
+
+    @Override
+    public int getX() {
+        return x;
+    }
+
+    @Override
+    public int getY() {
+        return y;
+    }
+
+    @Override
+    public void spawn(WallImage wall) {
+        visible = true;
+        // Set the power-up position relative to the wall
+        this.x = wall.X + 10;
+        this.y = wall.Y - (WallImage.gap / 2);
+    }
+
 
 }
+    
+
 
 
 

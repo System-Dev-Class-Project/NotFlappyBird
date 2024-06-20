@@ -6,7 +6,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import javax.imageio.ImageIO;
 
-public class HeartsPowerUp {
+public class HeartsPowerUp implements AttractableObject{
 
     private static final int MAX_VISIBILITY_DURATION = 0;
     private BufferedImage heartImg;
@@ -17,6 +17,8 @@ public class HeartsPowerUp {
     private int upperBound = 0; // Top of the screen
     private int lowerBound = 600; // Bottom of the screen, adjust this value based on your game's screen height
     private static int heart = 10;
+    private BirdTestAnimation player;
+    private int visibilityDuration = 0;
 
 
     public HeartsPowerUp(WallImage wall) {
@@ -104,7 +106,52 @@ public class HeartsPowerUp {
     public static void subHeart() {
         heart -= 1;
     }
+
+    @Override
+    public void moveToPlayer(int x, int y) {
+        this.x = player.getX() - (diameter / 2); // Center the coin relative to the player's position
+        this.y = player.getY() - (diameter / 2);
 }
+
+    @Override
+    public Rectangle getRect() {
+        return new Rectangle(x, y, diameter, diameter);
+    }
+
+    @Override
+    public int getX() {
+        return x;
+    }
+
+    @Override
+    public int getY() {
+        return y;
+    }
+
+    @Override
+    public void setX(int i) {
+        this.x = i;
+    }
+
+    @Override
+    public void setY(int i) {
+       this.y = i;
+    }
+
+    @Override
+    public void setVisible(boolean b) {
+       visible = b;
+    }
+
+    @Override
+    public void spawn(WallImage wall) {
+        visible = true;
+        visibilityDuration = MAX_VISIBILITY_DURATION; // Reset visibility duration
+        this.x = wall.X + 500;
+        this.y = wall.Y - (WallImage.gap / 2);
+    }
+    }
+
 
 
 

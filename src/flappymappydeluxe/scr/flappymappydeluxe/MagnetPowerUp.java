@@ -8,7 +8,7 @@ import javax.imageio.ImageIO;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MagnetPowerUp {
+public class MagnetPowerUp implements AttractableObject{
     private BufferedImage MagImg;
     public int x, y;
     private final int diameter = 25; // Size of the coin
@@ -113,9 +113,58 @@ public class MagnetPowerUp {
     }
 
 
+   
+    @Override
+    public void moveToPlayer(int x, int y) {
+        this.x = player.getX() - (diameter / 2); // Center the coin relative to the player's position
+        this.y = player.getY() - (diameter / 2);
+}
+
+    @Override
+    public Rectangle getRect() {
+        return new Rectangle(x, y, diameter, diameter);
+    }
+
+    @Override
+    public int getX() {
+        return x;
+    }
+
+    @Override
+    public int getY() {
+        return y;
+    }
+
+    @Override
+    public void setX(int i) {
+        this.x = i;
+    }
+
+    @Override
     public void setY(int i) {
-        // TODO Auto-generated method stub
-        y=i;
+       this.y = i;
+    }
+
+    @Override
+    public void setVisible(boolean b) {
+       visible = b;
+    }
+
+
+    @Override
+    public boolean isVisible() {
+       return visible;
+    }
+
+
+    @Override
+    public void spawn(WallImage wall) {
+        visible = true;
+            // Set the power-up position relative to the wall
+        this.x = wall.X + 10;
+        this.y = wall.Y - (WallImage.gap / 2);
     }
 }
+
+
     
