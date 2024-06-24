@@ -88,6 +88,7 @@ public class WallImage {
             if ((lowerRect.intersects(BirdTestAnimation.getBirdRect()) || upperRect.intersects(BirdTestAnimation.getBirdRect())) && HeartsPowerUp.getHearts() <= 1) {
             	audioPlayer.play("NotFlappyBird-main/Music/hurt_sound.wav");
             	audioPlayer.play("NotFlappyBird-main/Music/GameOver_sound.wav");
+                GamePanel.sendScoreToServer(GamePanel.score); // Send the score to the server (if the user is logged in
                 int option = GamePanel.popUpMessage(); // Object collision, leading to game over whenever the bird hits the walls
                 
                 if (option == 0) { // When player clicks yes, meaning they want to play again

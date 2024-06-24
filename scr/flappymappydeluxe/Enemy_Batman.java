@@ -112,6 +112,7 @@ public class Enemy_Batman implements Enemy{
             if ((getEnemypRect().intersects(BirdTestAnimation.getBirdRect())) && HeartsPowerUp.getHearts() <= 1) {
             	audioPlayer.play("NotFlappyBird-main/Music/hurt_sound.wav");
             	audioPlayer.play("NotFlappyBird-main/Music/hurt_sound.wav");
+                GamePanel.sendScoreToServer(GamePanel.score); // Send the score to the server (if the user is logged in
             	int option = GamePanel.popUpMessage();
 
 	             if (option == 0) {  //reset game if yes is clicked

@@ -93,6 +93,7 @@ public class Enemy_Magic_Firebaaaall implements Enemy{
             if ((getEnemypRect().intersects(BirdTestAnimation.getBirdRect())) && HeartsPowerUp.getHearts() <= 1) {
             	audioPlayer.play("NotFlappyBird-main/Music/hurt_sound.wav");     
             	audioPlayer.play("NotFlappyBird-main/Music/GameOver_sound.wav");
+                GamePanel.sendScoreToServer(GamePanel.score); // Send the score to the server (if the user is logged in
             	int option = GamePanel.popUpMessage(); //object collision, leading to game over whenever the bird hits the walls
 				
 				if (option == 0) { // when player clicks yes, meaning he wants to play again

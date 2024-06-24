@@ -11,7 +11,7 @@ public class MushroomPowerUp implements AttractableObject{
     private BufferedImage powerUpImg;
     private int x, y;
     private int diameter = 20; // Diameter of the power-up
-    private boolean visible = false;
+    private static boolean visible = false;
     private long mushroomStartTime;
     public boolean setVisible;
     private BirdTestAnimation player;
@@ -61,13 +61,13 @@ public class MushroomPowerUp implements AttractableObject{
         }
         
         
-        /**if (GamePanel.score % 4 == 0 && GamePanel.score != 0) {
+        /**if (GamePanel.score % 2 == 0) {
             visible = true;
             // Set the power-up position relative to the wall
             this.x = wall.X + 10;
             this.y = wall.Y - (WallImage.gap / 2);
-        }
-        */
+        }*/
+        
 
         if (getPowerUpRect().intersects(BirdTestAnimation.getBirdRect()) && visible) {
             audioPlayer.play("NotFlappyBird-main/Music/ShrinkPowerUp_sound.wav");
@@ -128,6 +128,10 @@ public class MushroomPowerUp implements AttractableObject{
         // Set the power-up position relative to the wall
         this.x = wall.X + 10;
         this.y = wall.Y - (WallImage.gap / 2);
+    }
+
+    public static boolean isMushroom() {
+        return visible;
     }
 
 

@@ -6,7 +6,12 @@ import java.awt.Graphics;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +34,7 @@ public class GamePanel extends JPanel {
 	public static final int HEIGHT =800;
 	
 	int coinCount = CoinImage.coinCount;
+	public static int highScore = 0;
 	
 	private int xCoor=0;
 	private BufferedImage img;
@@ -244,11 +250,17 @@ public class GamePanel extends JPanel {
 			wi.X=GamePanel.WIDTH;
 			wi2.X=GamePanel.WIDTH+(GamePanel.WIDTH/2);
 			coinForWi.setX(wi.X+10);
+			coinForWi.setVisible(true);
 			coinForWi2.setX(wi2.X+10);
+			coinForWi2.setVisible(true);
 			GameOver = false;
 			wi.hasPassed = false;
-			invPower.setVisible=false;
-			muPower.setVisible=false;
+			for (Enemy enemy : enemies) {
+				enemy.setVisible(false);
+			}
+			for (AttractableObject powerUp : powerUps) {
+				powerUp.setVisible(false);;
+			}
 		}
 		
 		xCoor+= WallImage.speed; //we move the background with the same speed as the walls
@@ -274,11 +286,24 @@ public class GamePanel extends JPanel {
 	    } else if (WallImage.speed > -2) {
 	        WallImage.speed = -2; // Set a minimum speed limit
 	    }
-	    }
-	
+	}
+
+	public static void sendScoreToServer(int score) {
+        try (Socket socket = new Socket("localhost", 12345);
+             PrintWriter out = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()), true);
+             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
+
+            out.println(score);
+            String response = in.readLine();
+            highScore = Integer.parseInt(response);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 	public static int popUpMessage() {  //Game Over pop up message with text plus the score
 		String[] options = {"Restart", "Back to Main Menu", "Exit"};
-        int dialogResult = JOptionPane.showOptionDialog(null, "You lost! What would you like to do?", "GAME OVER!",
+        int dialogResult = JOptionPane.showOptionDialog(null, "Game Over, your score is " + GamePanel.score + "\n The current Highscore is : " + GamePanel.highScore, "GAME OVER!",
                 JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
         return dialogResult;
 	}

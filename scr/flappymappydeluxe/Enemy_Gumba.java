@@ -151,6 +151,7 @@ public class Enemy_Gumba implements Enemy{
             } else if ((getEnemypRect().intersects(BirdTestAnimation.getBirdRect())) && HeartsPowerUp.getHearts() > 1 && hit) {
             	audioPlayer.play("NotFlappyBird-main/Music/GameOver_sound.wav");
             	hit = false; // Prevent further collision processing immediately
+                GamePanel.sendScoreToServer(GamePanel.score); // Send the score to the server (if the user is logged in
                 if (collisionTimer == null || !collisionTimer.isRunning()) { // Check if the timer is not running
                     collisionTimer = new Timer(500, new ActionListener() {
                         @Override
