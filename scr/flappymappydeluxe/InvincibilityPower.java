@@ -66,12 +66,12 @@ public class InvincibilityPower implements AttractableObject{
         }
         
         
-        if (GamePanel.score % 2==0) {
+        /**if (GamePanel.score % 2==0) {
             visible = true;
             // Set the power-up position relative to the wall
             this.x = wall.X + 10;
             this.y = wall.Y - (WallImage.gap / 2);
-        } 
+        }  */
 
         if (getPowerUpRect().intersects(BirdTestAnimation.getBirdRect()) && visible) {
         	audioPlayer.play("NotFlappyBird-main/Music/InvincibilityPowerUp_sound.wav");

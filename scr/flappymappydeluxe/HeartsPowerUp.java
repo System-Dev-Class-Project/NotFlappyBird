@@ -16,7 +16,8 @@ public class HeartsPowerUp implements AttractableObject{
     private int vy = 5; // Vertical velocity
     private int upperBound = 0; // Top of the screen
     private int lowerBound = 600; // Bottom of the screen, adjust this value based on your game's screen height
-    private static int heart = 10;
+    private static int heart;
+    private static int StartHearts = 5;
     private BirdTestAnimation player;
     private int visibilityDuration = 0;
     private AudioPlayer audioPlayer;
@@ -25,7 +26,7 @@ public class HeartsPowerUp implements AttractableObject{
         this.audioPlayer= audioPlayer;
     	this.x = wall.X + 500;
         this.y = wall.Y - (WallImage.gap / 2);
-        this.heart=heart;
+        this.heart=StartHearts;
         loadPowerUpImage();
     }
 
@@ -73,7 +74,7 @@ public class HeartsPowerUp implements AttractableObject{
 
         if (GamePanel.GameOver) {
             visible = true;
-            heart=1;
+            heart=StartHearts;
         }
 
         int visibilityDuration = 0;

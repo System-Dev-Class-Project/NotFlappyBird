@@ -34,8 +34,6 @@ public class Enemy_Batman implements Enemy{
     public Enemy_Batman(BirdTestAnimation player, WallImage wall, AudioPlayer audioPlayer){
         this.audioPlayer=audioPlayer;
     	this.player = player;
-        this.x = wall.X+200;
-        this.y = wall.Y - (WallImage.gap / 2);
         loadMagnetImage();
     }
 
@@ -146,7 +144,7 @@ public class Enemy_Batman implements Enemy{
                             HeartsPowerUp.subHeart(); // Subtract a heart
                             hit = true; // Re-enable collision processing after the delay
                             InvincibilityPower.setFalse(); // Disable invincibility
-                            System.out.println("Heart lost to Fireball! Current hearts: " + HeartsPowerUp.getHearts());
+                            System.out.println("Heart lost to Batman! Current hearts: " + HeartsPowerUp.getHearts());
                             collisionTimer = null; // Reset the timer reference to allow a new timer to be started
                         }
                     });

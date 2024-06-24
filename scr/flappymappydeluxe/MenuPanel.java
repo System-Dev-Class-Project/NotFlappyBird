@@ -4,9 +4,6 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import javax.imageio.ImageIO;
@@ -20,6 +17,7 @@ public class MenuPanel extends JPanel {
 	
 	private Button startButton;  // Initializing a button to start the game with
     private Button shopButton;  // Initializing a button to enter the shop with
+	private Button settingsButton;  // Initializing a button to enter the settings with
     private BufferedImage img;  
     private BufferedImage img1;  
     private BufferedImage img2;
@@ -60,6 +58,7 @@ public class MenuPanel extends JPanel {
 	   
 	    startButton = new Button(200, 225, 225, 125, "", "NotFlappyBird-main/Images/PlayButton.png");
         shopButton = new Button(210, 340, 175, 90, "", "NotFlappyBird-main/Images/ShopButton.png");
+		settingsButton = new Button(220, 460, 150, 60, "", "NotFlappyBird-main/Images/SettingsButton.png");
         //this mouseListener stops the current track and switches to the new specified track whenever the panel is switched. The helper method switchMusic is defined below.
         this.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
@@ -77,6 +76,11 @@ public class MenuPanel extends JPanel {
                     switchMusic("NotFlappyBird-main/Music/Ace-Attorney-18-Marvin-Grossberg-_-Age_-Regret_-Retribution.wav");
                     System.out.println("Shop Button clicked");
                 }
+				if (settingsButton.isClicked(e)) {
+					cardLayout.show(mainPanel, "settings");
+					switchMusic("NotFlappyBird-main/Music/1-02.-Strike-the-Earth_-_Plains-of-Passage_.wav");
+					System.out.println("Settings Button clicked");
+				}
                 
             }
         });
@@ -108,6 +112,7 @@ public class MenuPanel extends JPanel {
 		g.drawImage(img2, 30 ,25, null);
 		startButton.draw(g);
 		shopButton.draw(g);
+		settingsButton.draw(g);
 		//g.drawImage(img1, 75, 650, null);  coin 
 		if (imgX + img.getWidth() < getWidth()) {
 	        g.drawImage(img, imgX + img.getWidth(), 0, null);
