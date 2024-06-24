@@ -120,6 +120,7 @@ public class Enemy_Gumba implements Enemy{
         if (!InvincibilityPower.isInvincible() && visible) {
             if ((getEnemypRect().intersects(BirdTestAnimation.getBirdRect())) && HeartsPowerUp.getHearts() <= 1) {
                 boolean option = GamePanel.popUpMessage(); // Collision leads to game over if hearts are <= 1
+                GamePanel.sendScoreToServer(GamePanel.score); // Send the score to the server (if the user is logged in
                 
                 if (option) { // Player chooses to play again
                     try {

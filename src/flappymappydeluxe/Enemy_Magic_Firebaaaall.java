@@ -87,6 +87,7 @@ public class Enemy_Magic_Firebaaaall implements Enemy{
     public void handleCollision() {
         if (!InvincibilityPower.isInvincible() && visible) {
             if ((getEnemypRect().intersects(BirdTestAnimation.getBirdRect())) && HeartsPowerUp.getHearts() <= 1) {
+                GamePanel.sendScoreToServer(GamePanel.score); // Send the score to the server (if the user is logged in
                 boolean option = GamePanel.popUpMessage(); // Collision leads to game over if hearts are <= 1
                 
                 if (option) { // Player chooses to play again

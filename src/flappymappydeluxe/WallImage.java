@@ -84,6 +84,7 @@ public class WallImage {
 			Rectangle upperRect = new Rectangle(X, 0, width_Wall, GamePanel.HEIGHT-(height+gap));
 			//we call the getbirdRectmethod which is why it needs to be static
 			if ((lowerRect.intersects(BirdTestAnimation.getBirdRect()) || upperRect.intersects(BirdTestAnimation.getBirdRect())) && HeartsPowerUp.getHearts() <= 1) {
+				GamePanel.sendScoreToServer(GamePanel.score); // Send the score to the server (if the user is logged in
 				boolean option = GamePanel.popUpMessage(); //object collision, leading to game over whenever the bird hits the walls
 				
 				if (option) { //when player clicks yes, meaning he wants to play again

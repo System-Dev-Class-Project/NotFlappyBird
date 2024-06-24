@@ -105,6 +105,7 @@ public class Enemy_Batman implements Enemy{
     public void handleCollision() {
         if (!InvincibilityPower.isInvincible() && visible) {
             if ((getEnemypRect().intersects(BirdTestAnimation.getBirdRect())) && HeartsPowerUp.getHearts() <= 1) {
+                GamePanel.sendScoreToServer(GamePanel.score); // Send the score to the server (if the user is logged in
                 boolean option = GamePanel.popUpMessage(); // Collision leads to game over if hearts are <= 1
                 
                 if (option) { // Player chooses to play again
@@ -129,7 +130,7 @@ public class Enemy_Batman implements Enemy{
                             HeartsPowerUp.subHeart(); // Subtract a heart
                             hit = true; // Re-enable collision processing after the delay
                             InvincibilityPower.setFalse(); // Disable invincibility
-                            System.out.println("Heart lost to Fireball! Current hearts: " + HeartsPowerUp.getHearts());
+                            System.out.println("Heart lost to Batman! Current hearts: " + HeartsPowerUp.getHearts());
                             collisionTimer = null; // Reset the timer reference to allow a new timer to be started
                         }
                     });

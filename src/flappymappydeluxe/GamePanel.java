@@ -5,7 +5,12 @@ import java.awt.Graphics;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +28,7 @@ public class GamePanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	public static boolean GameOver = false;
 	public static int score = 0;
+	public static int highScore=0;
 	public static boolean hasPassed = false;
 	public static final int WIDTH =600;
 	public static final int HEIGHT =800;
@@ -167,16 +173,29 @@ public class GamePanel extends JPanel {
 	        WallImage.speed = -2; // Set a minimum speed limit
 	    }
 	    }
-	
-	public static boolean popUpMessage() {  //Game Over pop up message with text plus the score
-		int result = JOptionPane.showConfirmDialog(null, "Game Over, your score is "+ GamePanel.score+ "\n Do you want to restart the game?", "Game Over", JOptionPane.YES_NO_OPTION);
-		if (result== JOptionPane.YES_OPTION) {
-			return true; 
-		}
-		else {
-			return false;
-		}
-	}
+	public static void sendScoreToServer(int score) {
+        try (Socket socket = new Socket("localhost", 12345);
+             PrintWriter out = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()), true);
+             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
+
+            out.println(score);
+            String response = in.readLine();
+            highScore = Integer.parseInt(response);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static boolean popUpMessage() { // Game Over pop up message with text plus the score
+        int result = JOptionPane.showConfirmDialog(null, "Game Over, your score is " + GamePanel.score + "\nHighscore: " + GamePanel.highScore + "\n Do you want to restart the game?", "Game Over", JOptionPane.YES_NO_OPTION);
+        if (result == JOptionPane.YES_OPTION) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }
 	
 	
