@@ -66,23 +66,25 @@ public class InvincibilityPower implements AttractableObject{
         }
         
         
-        /**if (GamePanel.score % 2==0) {
+        if (GamePanel.score % 2==0) {
             visible = true;
             // Set the power-up position relative to the wall
             this.x = wall.X + 10;
             this.y = wall.Y - (WallImage.gap / 2);
-        } */
+        } 
 
         if (getPowerUpRect().intersects(BirdTestAnimation.getBirdRect()) && visible) {
         	audioPlayer.play("NotFlappyBird-main/Music/InvincibilityPowerUp_sound.wav");
         	visible = false; // Make the power-up disappear
             invincible = true;
+            bird.setRainbowColor(true);
             invincibleStartTime = System.currentTimeMillis();
         }
 
         // Check if invincibility should end
         if (invincible && (System.currentTimeMillis() - invincibleStartTime > 5000)) {
             invincible = false;
+            bird.setRainbowColor(false);
         }
         
     }

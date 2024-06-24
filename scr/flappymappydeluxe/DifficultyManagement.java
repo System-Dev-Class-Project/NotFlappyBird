@@ -1,5 +1,10 @@
 package flappymappydeluxe;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -66,5 +71,19 @@ public class DifficultyManagement {
             enemySpawnedForCurrentScore = true; // Zurücksetzen, wenn der Score kein Vielfaches von 3 ist
         }
 
-}
+    }
+
+    public static void resetHighscoreOnServer() {
+        try (Socket socket = new Socket("localhost", 12345);
+             PrintWriter out = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()), true);
+             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
+
+            out.println("RESET_HIGHSCORE");
+            String response = in.readLine();
+            System.out.println(response);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
