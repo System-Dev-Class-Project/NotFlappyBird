@@ -1,18 +1,21 @@
 package flappymappydeluxe;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.net.Socket;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
+
 
 public class DifficultyManagement {
     private Random random = new Random();
-    private List<AttractableObject> powerUps = new ArrayList<>();
     private double[] powerUpProbabilities; // Probabilities for each power-up
-    private List<Enemy> enemies = new ArrayList<>();
-    private int enemyScore = 4; // Score interval for enemy spawn
-    private int powerupScore = 2; // Score interval for power-up spawn
+    private int enemyScore = 5; // Score interval for enemy spawn
+    private int hardEnemyScore = 20; // Score interval for hard enemy spawn
+    private int powerupScore = 5; // Score interval for power-up spawn
     boolean enemySpawnedForCurrentScore = true;
     boolean powerupSpawnedForCurrentScore = true;
 
@@ -54,7 +57,7 @@ public class DifficultyManagement {
 
         void spawnRandomEnemies(WallImage wall, WallImage wall2, List<Enemy> enemyTypes) {
             if (GamePanel.score % enemyScore == 0 && enemySpawnedForCurrentScore && GamePanel.score!=0) { // Nach jedem 3. Score
-                int enemiesToSpawn = GamePanel.score > 10 ? random.nextInt(2)+1  : 1; // Spawn 2 oder 3 Feinde, wenn Score > 10, sonst 1
+                int enemiesToSpawn = GamePanel.score > hardEnemyScore ? random.nextInt(2)+1  : 1; // Spawn 2 oder 3 Feinde, wenn Score > 10, sonst 1
                 for (int i = 0; i < enemiesToSpawn; i++) {
                     Enemy enemy = enemyTypes.get(random.nextInt(enemyTypes.size())); // Zufälligen Enemy auswählen
                     WallImage targetWall = GamePanel.score % 2 == 0 ? wall : wall2; // Wall basierend auf Score auswählen
@@ -66,5 +69,23 @@ public class DifficultyManagement {
             enemySpawnedForCurrentScore = true; // Zurücksetzen, wenn der Score kein Vielfaches von 3 ist
         }
 
-}
+        
+
+    }
+
+    public static void resetHighscoreOnServer() {
+        try (Socket socket = new Socket("localhost", 12345);
+             PrintWriter out = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()), true);
+             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
+
+            out.println("RESET_HIGHSCORE");
+            String response = in.readLine();
+            System.out.println(response);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
 }
