@@ -37,8 +37,6 @@ public class Enemy_Gumba implements Enemy{
     public Enemy_Gumba(BirdTestAnimation player, WallImage wall, AudioPlayer audioPlayer) {
         this.audioPlayer=audioPlayer;
     	this.player = player;
-        this.x = wall.X+200;
-        this.y = wall.Y - (WallImage.gap / 2);
         loadMagnetImage();
     }
 

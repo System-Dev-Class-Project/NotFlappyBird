@@ -30,8 +30,6 @@ public class Enemy_Magic_Firebaaaall implements Enemy{
     public Enemy_Magic_Firebaaaall(BirdTestAnimation player, WallImage wall, AudioPlayer audioPlayer) {
         this.audioPlayer=audioPlayer;
         this.player = player;
-        this.x = wall.X+200;
-        this.y = wall.Y - (WallImage.gap / 2);
         loadMagnetImage();
     }
 
@@ -53,6 +51,7 @@ public class Enemy_Magic_Firebaaaall implements Enemy{
     public void drawPowerUp(Graphics g) {
         if (visible) {
             g.drawImage(GuImg, x, y, null);
+            System.out.println("Fireball drawn");
         }
     }
 
@@ -88,8 +87,12 @@ public class Enemy_Magic_Firebaaaall implements Enemy{
     }
 
     public void handleCollision() {
+
+        if (!visible) {
+            return;
+        }
     	
-        if (!InvincibilityPower.isInvincible() && visible) {
+        if (!InvincibilityPower.isInvincible()) {
             if ((getEnemypRect().intersects(BirdTestAnimation.getBirdRect())) && HeartsPowerUp.getHearts() <= 1) {
             	audioPlayer.play("NotFlappyBird-main/Music/hurt_sound.wav");     
             	audioPlayer.play("NotFlappyBird-main/Music/GameOver_sound.wav");

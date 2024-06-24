@@ -42,6 +42,7 @@ public class GamePanel extends JPanel {
     private BufferedImage birdSkinImage;
     private BufferedImage birdSkinImageFlap;
     private BufferedImage backgroundSkinImage;
+	private DifficultyManagement diff;
     AudioPlayer audioPlayer = new AudioPlayer(false);  //for the short sound bytes we define the AudioPlayer with false so that it doesnt repeat itself after occuring once, unlike the background music
 	BirdTestAnimation bi= new BirdTestAnimation();
 	WallImage wi = new WallImage(GamePanel.WIDTH);
@@ -59,7 +60,6 @@ public class GamePanel extends JPanel {
 	Enemy_Magic_Firebaaaall enemyFireball = new Enemy_Magic_Firebaaaall(bi, wi, audioPlayer);
 	Enemy_Alien enemyAlien = new Enemy_Alien(bi, wi, audioPlayer);
 	Enemy_Batman enemyBatman = new Enemy_Batman(bi, wi,audioPlayer);
-	DifficultyManagement diff = new DifficultyManagement();	
 	
 	
 
@@ -70,10 +70,11 @@ public class GamePanel extends JPanel {
     
     
 	
-	public GamePanel(ShopPanel shopPanel, CardLayout cardLayout, JPanel mainPanel) {
+	public GamePanel(ShopPanel shopPanel, CardLayout cardLayout, JPanel mainPanel, DifficultyManagement diff) {
 		this.shopPanel = shopPanel;
         this.cardLayout = cardLayout;
         this.mainPanel = mainPanel;
+		this.diff=diff;
         
 		LoadImage();
 		this.addMouseListener(new MouseAdapter() {

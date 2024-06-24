@@ -22,6 +22,8 @@ public class FlappyClass {
     private ShopPanel shopPanel;
     private static GamePanel gamePanel;
     private MenuPanel menuPanel;
+    private SettingsPanel settingsPanel;
+    private DifficultyManagement difficultyManagement;
 	
 	private FlappyClass() {
 		
@@ -31,7 +33,9 @@ public class FlappyClass {
 		window.setLocationRelativeTo(null); //sets window pop-up location to screen center
 		window.setTitle("Not Flappy Bird"); //title
 		window.setResizable(true);  //prohibits window resizing
-		 audioPlayer = new AudioPlayer(true);
+		audioPlayer = new AudioPlayer(true);
+        difficultyManagement = new DifficultyManagement();
+
 		
 	}
 	
@@ -42,13 +46,17 @@ public class FlappyClass {
         // Initialize ShopPanel first
         shopPanel = new ShopPanel(cardLayout, mainPanel);
 
+        settingsPanel = new SettingsPanel(cardLayout, mainPanel, difficultyManagement);
+
         // Now initialize MenuPanel and GamePanel with the initialized shopPanel
         menuPanel = new MenuPanel(cardLayout, mainPanel, audioPlayer);
-        gamePanel = new GamePanel(shopPanel, cardLayout, mainPanel);
+        gamePanel = new GamePanel(shopPanel, cardLayout, mainPanel, difficultyManagement);
 
         mainPanel.add(menuPanel, "menu");
         mainPanel.add(gamePanel, "game");
         mainPanel.add(shopPanel, "shop");
+        mainPanel.add(settingsPanel, "settings");
+
 
         window.add(mainPanel);
         cardLayout.show(mainPanel, "menu"); // Show menu panel first
