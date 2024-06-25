@@ -153,7 +153,16 @@ public class HeartsPowerUp implements AttractableObject{
         this.x = wall.X+10;
         this.y = wall.Y - (WallImage.gap / 2);
     }
+
+    public static void setStartHearts(int i) {
+        StartHearts = i;
     }
+
+    public static int getStartHearts() {
+        return StartHearts;
+    }
+
+}
 
 
 

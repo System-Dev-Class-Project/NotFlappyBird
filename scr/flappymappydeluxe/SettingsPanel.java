@@ -31,6 +31,15 @@ public class SettingsPanel extends JPanel {
             }
         });
 
+        JButton resetHighscoreButton = createButton("Reset Highscore");
+        resetHighscoreButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                DifficultyManagement.resetHighscoreOnServer();
+                JOptionPane.showMessageDialog(null, "Highscore has been reset!");
+            }
+        });
+
         // Panel für die Einstellungs-Buttons initialisieren
         settingsContainer = new JPanel();
         settingsContainer.setLayout(new BoxLayout(settingsContainer, BoxLayout.Y_AXIS));
@@ -39,6 +48,7 @@ public class SettingsPanel extends JPanel {
         addSetting(settingsContainer, "Enemy Score", value -> difficulty.setEnemyScore(Integer.parseInt(value)), () -> String.valueOf(difficulty.getEnemyScore()));
         addSetting(settingsContainer, "Powerup Score", value -> difficulty.setPowerupScore(Integer.parseInt(value)), () -> String.valueOf(difficulty.getPowerupScore()));
         addSetting(settingsContainer, "Speed", value -> difficulty.setSpeed(Integer.parseInt(value)), () -> String.valueOf(difficulty.getSpeed()));
+        addSetting(settingsContainer, "Hearts", value -> difficulty.setHearts(Integer.parseInt(value)), () -> String.valueOf(difficulty.getHearts()));
         addSetting(settingsContainer, "Multiple Enemies", value -> difficulty.setMultipleEnemies(Integer.parseInt(value)), () -> String.valueOf(difficulty.getMultipleEnemies()));
         addSetting(settingsContainer, "PowerUp Probabilities", value -> {
         String[] values = value.split(",");
@@ -51,6 +61,7 @@ public class SettingsPanel extends JPanel {
 
         // Hinzufügen des settingsContainer zum Hauptpanel
         add(settingsContainer, BorderLayout.CENTER);
+        settingsContainer.add(resetHighscoreButton);
 
         // Hinzufügen des Zurück-Buttons zum unteren Bereich des Hauptpanels
         add(backButton, BorderLayout.SOUTH);
