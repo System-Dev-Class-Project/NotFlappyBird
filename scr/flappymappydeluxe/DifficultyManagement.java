@@ -19,6 +19,7 @@ public class DifficultyManagement {
     private int enemyScore = 4; // Score interval for enemy spawn
     private int powerupScore = 2; // Score interval for power-up spawn
     private int speed = 1; // Speed of the game
+    private int hearts = 3; // Number of hearts
     private static int MultipleEnemies = 10;
     boolean enemySpawnedForCurrentScore = true;
     boolean powerupSpawnedForCurrentScore = true;
@@ -109,6 +110,10 @@ public class DifficultyManagement {
         MultipleEnemies = multipleEnemies;
     }
 
+    public void setHearts(int hearts) {
+        HeartsPowerUp.setStartHearts(hearts);
+    }
+
     public int getEnemyScore() {
         return enemyScore;
     }
@@ -127,6 +132,10 @@ public class DifficultyManagement {
 
     public int getMultipleEnemies() {
         return MultipleEnemies;
+    }
+
+    public int getHearts() {
+        return HeartsPowerUp.getStartHearts();
     }
     
 
