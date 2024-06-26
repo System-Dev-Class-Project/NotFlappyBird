@@ -43,7 +43,7 @@ public class CoinImage implements AttractableObject{
     }
 
     public void drawCoin(Graphics g) {
-        if (visible) {
+        if (visible && DifficultyManagement.powerupSpawnedForCurrentScore()) {
             g.drawImage(coinImg, x, y, null);
         }
     }

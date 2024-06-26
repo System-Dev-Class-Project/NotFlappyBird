@@ -32,8 +32,6 @@ public class Enemy_Alien implements Enemy{
     public Enemy_Alien(BirdTestAnimation player, WallImage wall, AudioPlayer audioPlayer) {
         this.audioPlayer=audioPlayer;
     	this.player = player;
-        this.x = wall.X+200;
-        this.y = wall.Y - (WallImage.gap / 2);
         loadMagnetImage();
     }
 
@@ -82,14 +80,13 @@ public class Enemy_Alien implements Enemy{
         }
         
         
-        /**if (GamePanel.score % 4==0) {
+        /**if (GamePanel.score % 3==0) {
             visible = true;
             // Set the power-up position relative to the wall
             this.x = wall.X + 500-(diameter/2);
             this.y = wall.Y - (WallImage.gap / 2)-(diameter/2);
-        }**/
-
-
+        }*/
+        //System.out.println(((getEnemypRect().intersects(BirdTestAnimation.getBirdRect())) && HeartsPowerUp.getHearts() > 1 && hit));
 
         handleCollision();
 
@@ -98,52 +95,61 @@ public class Enemy_Alien implements Enemy{
 
     public void handleCollision() {	
         if (!InvincibilityPower.isInvincible()) {
-            if ((getEnemypRect().intersects(BirdTestAnimation.getBirdRect())) && HeartsPowerUp.getHearts() <= 1) {
-            	audioPlayer.play("NotFlappyBird-main/Music/hurt_sound.wav");
-            	audioPlayer.play("NotFlappyBird-main/Music/GameOver_sound.wav");
-                GamePanel.sendScoreToServer(GamePanel.score); // Send the score to the server (if the user is logged in
-            	int option = GamePanel.popUpMessage();
-
-	             if (option == 0) {  //reset game if yes is clicked
-	                 try {
-	                     Thread.sleep(500);
-	                 } catch (Exception ex) {
-	                     ex.printStackTrace();
-	                 }
-	                 BirdTestAnimation.reset();
-	             } else if (option == 2) {    //close game if no is clicked
-	             	 JFrame frame = FlappyClass.getWindow();
-	                  MenuPanel.audioPlayer.stop();    //stops the music from playing when no is pressed after falling out of bounds. Also inserted in the wallImage class in the case of wall collision
-	                  frame.dispose();
-	                  FlappyClass.timer.stop();
-	             }
-	             else {    //last possible option is to go back to main menu 
-	                 // Go back to main menu
-	             	MenuPanel.switchMusic("NotFlappyBird-main/Music/1-01. Main Theme (Title Screen).wav");
-	             	BirdTestAnimation.reset();
-	             	FlappyClass.timer.stop();
-	                 FlappyClass.cardLayout.show(FlappyClass.mainPanel, "menu");
-	             }
-	         }
-            } else if ((getEnemypRect().intersects(BirdTestAnimation.getBirdRect())) && HeartsPowerUp.getHearts() > 1 && hit) {
-            	audioPlayer.play("NotFlappyBird-main/Music/hurt_sound.wav");
-            	hit = false; // Prevent further collision processing immediately
-                if (collisionTimer == null || !collisionTimer.isRunning()) { // Check if the timer is not running
+            Rectangle enemyRect = getEnemypRect();
+            Rectangle birdRect = BirdTestAnimation.getBirdRect();
+    
+            // Kollision mit einem Leben oder weniger
+            if (enemyRect.intersects(birdRect) && HeartsPowerUp.getHearts() <= 1) {
+                // Kollision mit Soundeffekten und Spielende
+                audioPlayer.play("NotFlappyBird-main/Music/hurt_sound.wav");
+                audioPlayer.play("NotFlappyBird-main/Music/GameOver_sound.wav");
+                GamePanel.sendScoreToServer(GamePanel.score); 
+    
+                // Pop-up Nachricht und entsprechende Aktionen
+                int option = GamePanel.popUpMessage();
+                if (option == 0) {  
+                    try {
+                        Thread.sleep(500);
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                    BirdTestAnimation.reset();
+                } else if (option == 2) {    
+                    JFrame frame = FlappyClass.getWindow();
+                    MenuPanel.audioPlayer.stop();    
+                    frame.dispose();
+                    FlappyClass.timer.stop();
+                } else {    
+                    MenuPanel.switchMusic("NotFlappyBird-main/Music/1-01. Main Theme (Title Screen).wav");
+                    BirdTestAnimation.reset();
+                    FlappyClass.timer.stop();
+                    FlappyClass.cardLayout.show(FlappyClass.mainPanel, "menu");
+                }
+            } 
+            // Kollision mit mehr als einem Leben
+            else if (enemyRect.intersects(birdRect) && HeartsPowerUp.getHearts() > 1 && hit) {
+                audioPlayer.play("NotFlappyBird-main/Music/hurt_sound.wav");
+                hit = false; 
+                System.out.println("Alien hit Bird");
+                if (collisionTimer == null || !collisionTimer.isRunning()) { 
                     collisionTimer = new Timer(500, new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) { 	
-                            HeartsPowerUp.subHeart(); // Subtract a heart
-                            hit = true; // Re-enable collision processing after the delay
-                            InvincibilityPower.setFalse(); // Disable invincibility
+                            HeartsPowerUp.subHeart(); 
+                            hit = true; 
+                            InvincibilityPower.setFalse(); 
                             System.out.println("Heart lost to Alien! Current hearts: " + HeartsPowerUp.getHearts());
-                            collisionTimer = null; // Reset the timer reference to allow a new timer to be started
+                            collisionTimer = null; 
                         }
                     });
-                    collisionTimer.setRepeats(false); // Ensure the timer only triggers once
-                    collisionTimer.start(); // Start the timer
+                    collisionTimer.setRepeats(false); 
+                    collisionTimer.start(); 
                 }
             }
         }
+    }
+    
+
     
 
     @Override
@@ -153,7 +159,5 @@ public class Enemy_Alien implements Enemy{
         this.x = wall.X + 500-(diameter/2);
         this.y = wall.Y - (WallImage.gap / 2)-(diameter/2);
     }
+
 }
-
-    
-

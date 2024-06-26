@@ -22,14 +22,14 @@ public class DifficultyManagement {
     private int hearts = 3; // Number of hearts
     private static int MultipleEnemies = 10;
     boolean enemySpawnedForCurrentScore = true;
-    boolean powerupSpawnedForCurrentScore = true;
+    static boolean powerupSpawnedForCurrentScore = true;
 
     DifficultyManagement() {
         powerUpProbabilities = new double[]{0.2, 0.3, 0.2, 0.3}; //set probability for each power-up (1=inv, 2, mushroom, 3=heart, 4=magnet)
     }
 
 
-    void spawnRandomPowerUp(WallImage wall, WallImage wall2, List<AttractableObject> powerupTypes ) {
+    void spawnRandomPowerUp(WallImage wall, WallImage wall2, CoinImage coin, CoinImage coin2, List<AttractableObject> powerupTypes ) {
         if (GamePanel.score % powerupScore == 0 && powerupSpawnedForCurrentScore && GamePanel.score != 0) {
             // Generate a random number between 0 and 1
             double probability = random.nextDouble();
@@ -51,7 +51,9 @@ public class DifficultyManagement {
             // Spawn the selected power-up
             AttractableObject powerup = powerupTypes.get(selectedPowerUpIndex);
             WallImage targetWall = GamePanel.score % 2 == 0 ? wall : wall2;
-            System.out.println("Powerup spawned at score " + GamePanel.score);
+            CoinImage targetCoin = GamePanel.score % 2 == 0 ? coin : coin2;
+            //System.out.println("Powerup spawned at score " + GamePanel.score);
+            targetCoin.setVisible(false);
             powerup.spawn(targetWall);
             powerupSpawnedForCurrentScore = false;
         } else if (GamePanel.score % powerupScore != 0) {
@@ -137,6 +139,9 @@ public class DifficultyManagement {
     public int getHearts() {
         return HeartsPowerUp.getStartHearts();
     }
-    
+   
+    public static boolean powerupSpawnedForCurrentScore() {
+        return powerupSpawnedForCurrentScore;
+    }
 
 }

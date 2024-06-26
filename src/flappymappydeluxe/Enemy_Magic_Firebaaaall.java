@@ -51,7 +51,7 @@ public class Enemy_Magic_Firebaaaall implements Enemy{
     public void drawPowerUp(Graphics g) {
         if (visible) {
             g.drawImage(GuImg, x, y, null);
-            System.out.println("Fireball drawn");
+            //System.out.println("Fireball drawn");
         }
     }
 
@@ -86,61 +86,61 @@ public class Enemy_Magic_Firebaaaall implements Enemy{
         
     }
 
-    public void handleCollision() {
-
-        if (!visible) {
-            return;
-        }
-    	
+    public void handleCollision() {	
         if (!InvincibilityPower.isInvincible()) {
-            if ((getEnemypRect().intersects(BirdTestAnimation.getBirdRect())) && HeartsPowerUp.getHearts() <= 1) {
-            	audioPlayer.play("NotFlappyBird-main/Music/hurt_sound.wav");     
-            	audioPlayer.play("NotFlappyBird-main/Music/GameOver_sound.wav");
-                GamePanel.sendScoreToServer(GamePanel.score); // Send the score to the server (if the user is logged in
-            	int option = GamePanel.popUpMessage(); //object collision, leading to game over whenever the bird hits the walls
-				
-				if (option == 0) { // when player clicks yes, meaning he wants to play again
-					try {
-						Thread.sleep(500);
-					} catch (Exception ex) {
-						ex.printStackTrace();
-					}
-					BirdTestAnimation.reset(); // resets the bird to its initial starting coordinates
-				} else if (option == 2) {
-					
-					JFrame frame = FlappyClass.getWindow();
-					MenuPanel.audioPlayer.stop();  //stops music when pressing no after wall collision
-					frame.dispose(); // releases all of the native resources displayed in the window, essentially closing it
-					FlappyClass.timer.stop();
-					
-				}
-				else {
-					// Go back to main menu
-					MenuPanel.switchMusic("NotFlappyBird-main/Music/1-01. Main Theme (Title Screen).wav");
-					BirdTestAnimation.reset();
-					FlappyClass.timer.stop();
-	                FlappyClass.cardLayout.show(FlappyClass.mainPanel, "menu");
-				}
-			}
-            } else if ((getEnemypRect().intersects(BirdTestAnimation.getBirdRect())) && HeartsPowerUp.getHearts() > 1 && hit) {
-            	audioPlayer.play("NotFlappyBird-main/Music/hurt_sound.wav");
-            	hit = false; // Prevent further collision processing immediately
-                if (collisionTimer == null || !collisionTimer.isRunning()) { // Check if the timer is not running
+            Rectangle enemyRect = getEnemypRect();
+            Rectangle birdRect = BirdTestAnimation.getBirdRect();
+    
+            // Kollision mit einem Leben oder weniger
+            if (enemyRect.intersects(birdRect) && HeartsPowerUp.getHearts() <= 1) {
+                // Kollision mit Soundeffekten und Spielende
+                audioPlayer.play("NotFlappyBird-main/Music/hurt_sound.wav");
+                audioPlayer.play("NotFlappyBird-main/Music/GameOver_sound.wav");
+                GamePanel.sendScoreToServer(GamePanel.score); 
+    
+                // Pop-up Nachricht und entsprechende Aktionen
+                int option = GamePanel.popUpMessage();
+                if (option == 0) {  
+                    try {
+                        Thread.sleep(500);
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                    BirdTestAnimation.reset();
+                } else if (option == 2) {    
+                    JFrame frame = FlappyClass.getWindow();
+                    MenuPanel.audioPlayer.stop();    
+                    frame.dispose();
+                    FlappyClass.timer.stop();
+                } else {    
+                    MenuPanel.switchMusic("NotFlappyBird-main/Music/1-01. Main Theme (Title Screen).wav");
+                    BirdTestAnimation.reset();
+                    FlappyClass.timer.stop();
+                    FlappyClass.cardLayout.show(FlappyClass.mainPanel, "menu");
+                }
+            } 
+            // Kollision mit mehr als einem Leben
+            else if (enemyRect.intersects(birdRect) && HeartsPowerUp.getHearts() > 1 && hit) {
+                audioPlayer.play("NotFlappyBird-main/Music/hurt_sound.wav");
+                hit = false; 
+                //System.out.println("Alien hit Fireball");
+                if (collisionTimer == null || !collisionTimer.isRunning()) { 
                     collisionTimer = new Timer(500, new ActionListener() {
                         @Override
-                        public void actionPerformed(ActionEvent e) {
-                            HeartsPowerUp.subHeart(); // Subtract a heart
-                            hit = true; // Re-enable collision processing after the delay
-                            InvincibilityPower.setFalse(); // Disable invincibility
+                        public void actionPerformed(ActionEvent e) { 	
+                            HeartsPowerUp.subHeart(); 
+                            hit = true; 
+                            InvincibilityPower.setFalse(); 
                             System.out.println("Heart lost to Fireball! Current hearts: " + HeartsPowerUp.getHearts());
-                            collisionTimer = null; // Reset the timer reference to allow a new timer to be started
+                            collisionTimer = null; 
                         }
                     });
-                    collisionTimer.setRepeats(false); // Ensure the timer only triggers once
-                    collisionTimer.start(); // Start the timer
+                    collisionTimer.setRepeats(false); 
+                    collisionTimer.start(); 
                 }
             }
         }
+    }
     
 
     @Override

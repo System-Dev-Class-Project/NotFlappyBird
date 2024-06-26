@@ -2,6 +2,8 @@ package flappymappydeluxe;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -50,8 +52,15 @@ public class SettingsPanel extends JPanel {
             difficulty.setPowerUpProbabilities(probabilities);
         }, () -> Arrays.toString(difficulty.getPowerUpProbabilities()));
 
-        // Add reset highscore button
+        // Center the settings container
+        JPanel centerPanel = new JPanel(new GridBagLayout());
+        centerPanel.setOpaque(false);
+        centerPanel.add(settingsContainer);
+        add(centerPanel, BorderLayout.CENTER);
+
+        // Create and add reset highscore button
         JButton resetHighscoreButton = createButton("Reset Highscore");
+        resetHighscoreButton.setPreferredSize(new Dimension(150, 40)); // Smaller size for the reset button
         resetHighscoreButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -59,10 +68,12 @@ public class SettingsPanel extends JPanel {
                 JOptionPane.showMessageDialog(null, "Highscore has been reset!");
             }
         });
-        settingsContainer.add(resetHighscoreButton);
 
-        // Add settings container to main panel
-        add(settingsContainer, BorderLayout.CENTER);
+        JPanel resetButtonPanel = new JPanel(new GridBagLayout());
+        resetButtonPanel.setOpaque(false);
+        resetButtonPanel.setBorder(new EmptyBorder(20, 0, 20, 0)); // Increase space between reset and back button
+        resetButtonPanel.add(resetHighscoreButton);
+        add(resetButtonPanel, BorderLayout.SOUTH); // Add reset button to the south panel
 
         // Create and add back button
         JButton backButton = createButton("Back to Menu");
@@ -75,12 +86,17 @@ public class SettingsPanel extends JPanel {
             }
         });
 
-        JPanel buttonPanel = new JPanel();
+        JPanel buttonPanel = new JPanel(new GridBagLayout());
         buttonPanel.setOpaque(false); // Make the button panel transparent
-        buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
         buttonPanel.add(backButton);
 
-        add(buttonPanel, BorderLayout.SOUTH); // Add the button panel to the bottom of the main panel
+        // Use a nested panel structure to place the reset button above the back button
+        JPanel southPanel = new JPanel(new BorderLayout());
+        southPanel.setOpaque(false);
+        southPanel.add(resetButtonPanel, BorderLayout.NORTH);
+        southPanel.add(buttonPanel, BorderLayout.SOUTH);
+
+        add(southPanel, BorderLayout.SOUTH); // Add the nested panel to the bottom of the main panel
 
         // Debug prints
         System.out.println("SettingsPanel initialized");
@@ -106,11 +122,14 @@ public class SettingsPanel extends JPanel {
 
     private void addSetting(JPanel container, String labelName, Consumer<String> setter, Supplier<String> getter) {
         JPanel panel = new JPanel();
-        panel.setLayout(new FlowLayout(FlowLayout.LEFT));
+        panel.setLayout(new FlowLayout(FlowLayout.CENTER));
         panel.setOpaque(false); // Make the panel transparent
+        panel.setBorder(new EmptyBorder(20, 0, 20, 0)); // Add more space between settings
         JLabel label = new JLabel(labelName);
+        label.setForeground(Color.BLACK); // Set label text color to black
         JTextField textField = new JTextField(10);
         JButton button = new JButton("Set " + labelName);
+        button.setForeground(Color.BLACK); // Set button text color to black
 
         button.addActionListener(e -> {
             setter.accept(textField.getText());
@@ -127,13 +146,44 @@ public class SettingsPanel extends JPanel {
     }
 
     private JButton createButton(String text) {
-        JButton button = new JButton(text);
+        JButton button = new JButton(text) {
+            @Override
+            protected void paintComponent(Graphics g) {
+                Graphics2D g2 = (Graphics2D) g.create();
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                GradientPaint gp = new GradientPaint(0, 0, new Color(240, 240, 240), 0, getHeight(), new Color(200, 200, 200));
+                g2.setPaint(gp);
+                g2.fillRoundRect(0, 0, getWidth(), getHeight(), 20, 20);
+                g2.setColor(getForeground());
+                g2.setFont(getFont());
+                FontMetrics fm = g2.getFontMetrics();
+                int stringWidth = fm.stringWidth(getText());
+                int stringHeight = fm.getAscent();
+                g2.drawString(getText(), (getWidth() - stringWidth) / 2, (getHeight() + stringHeight) / 2 - 2);
+                g2.dispose();
+            }
+        };
         button.setPreferredSize(new Dimension(200, 50));
         button.setFont(new Font("Arial", Font.BOLD, 14));
-        button.setBackground(new Color(240, 228, 204));
-        button.setForeground(Color.BLACK);
+        button.setForeground(Color.BLACK); // Set button text color to black
         button.setFocusPainted(false);
-        button.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+        button.setContentAreaFilled(false);
+        button.setBorder(new LineBorder(Color.BLACK, 2));
+        button.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
+        // Add hover effect
+        button.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                button.setBorder(new LineBorder(Color.RED, 2));
+            }
+
+            @Override
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                button.setBorder(new LineBorder(Color.BLACK, 2));
+            }
+        });
+
         return button;
     }
 }

@@ -218,7 +218,7 @@ public class GamePanel extends JPanel {
 		for (Enemy enemy : enemies) {
     	enemy.moveEnemy(wi);
 		}
-		diff.spawnRandomPowerUp(wi, wi2, powerUps);
+		diff.spawnRandomPowerUp(wi, wi2, coinForWi, coinForWi2, powerUps);
 		diff.spawnRandomEnemies(wi, wi2, enemies);
 
 		 
