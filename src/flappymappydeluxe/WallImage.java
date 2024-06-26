@@ -120,7 +120,7 @@ public class WallImage {
                             HeartsPowerUp.subHeart();
                             hit = true; // Re-enable collision processing after the delay
                             InvincibilityPower.setFalse();
-                            System.out.println("Heart lost! Current hearts: " + HeartsPowerUp.getHearts());
+                            //System.out.println("Heart lost! Current hearts: " + HeartsPowerUp.getHearts());
                             collisionTimer = null; // Reset the timer reference to allow a new timer to be started
                         }
                     });

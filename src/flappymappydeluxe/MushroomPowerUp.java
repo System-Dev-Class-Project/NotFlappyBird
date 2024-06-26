@@ -4,6 +4,9 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.Timer;
+import java.util.TimerTask;
+
 import javax.imageio.ImageIO;
 
 public class MushroomPowerUp implements AttractableObject{
@@ -15,6 +18,7 @@ public class MushroomPowerUp implements AttractableObject{
     private long mushroomStartTime;
     public boolean setVisible;
     private BirdTestAnimation player;
+    Timer timer;
 
     private AudioPlayer audioPlayer;
 
@@ -33,6 +37,7 @@ public class MushroomPowerUp implements AttractableObject{
             e.printStackTrace();
         }
     }
+
 
     public void drawPowerUp(Graphics g) {
         if (visible) {
@@ -74,16 +79,20 @@ public class MushroomPowerUp implements AttractableObject{
         	
         	visible = false; // Make the power-up disappear
             bird.setMushroom(true);
-            mushroomStartTime =  System.currentTimeMillis();
-        
-
-        // Check if invincibility should end
-        if (bird.isMushroom()  && (System.currentTimeMillis() - mushroomStartTime > 5000)) {
-            bird.setMushroom(false); 
-            } 
+            //System.out.println("Mushroom PowerUp started");
+            mushroomStartTime = System.currentTimeMillis();
         }
         
+
+        //System.out.println("Time difference: " + (System.currentTimeMillis() - mushroomStartTime));
+
+        if (bird.isMushroom() && (System.currentTimeMillis() - mushroomStartTime > 5000)) {
+            bird.setMushroom(false);
+            //System.out.println("Mushroom PowerUp ended");
+
+
         
+    }  
     }
 
     @Override

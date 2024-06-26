@@ -19,7 +19,7 @@ public class BirdTestAnimation {
 
     private static int bird_dia = 36;
     private static int mushroom_dia = 10;
-    private boolean mushroom = MushroomPowerUp.isMushroom();
+    private boolean mushroom = false;
     public static int x = (GamePanel.WIDTH / 2) - bird_dia / 2;
     public static int y = GamePanel.HEIGHT / 2; // Spawns the bird in the middle of the window
 
@@ -72,6 +72,7 @@ public class BirdTestAnimation {
                 }
             } else {
                 bird_dia = 36;
+                System.out.println("Mushroom is false");
                 // Load the normal bird images
                 if (activeBirdSkin != null) {
                     switch (activeBirdSkin) {

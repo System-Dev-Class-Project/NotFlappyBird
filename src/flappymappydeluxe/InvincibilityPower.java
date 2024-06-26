@@ -71,7 +71,7 @@ public class InvincibilityPower implements AttractableObject{
             // Set the power-up position relative to the wall
             this.x = wall.X + 10;
             this.y = wall.Y - (WallImage.gap / 2);
-        }  */
+        }*/  
 
         if (getPowerUpRect().intersects(BirdTestAnimation.getBirdRect()) && visible) {
         	audioPlayer.play("NotFlappyBird-main/Music/InvincibilityPowerUp_sound.wav");
@@ -81,6 +81,8 @@ public class InvincibilityPower implements AttractableObject{
             invincibleStartTime = System.currentTimeMillis();
         }
 
+        //System.out.println(System.currentTimeMillis() - invincibleStartTime);
+        //System.out.println(invincibleStartTime);
         // Check if invincibility should end
         if (invincible && (System.currentTimeMillis() - invincibleStartTime > 5000)) {
             invincible = false;
