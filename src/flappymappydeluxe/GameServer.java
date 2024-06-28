@@ -5,6 +5,7 @@ import java.net.*;
 
 public class GameServer {
     private static int highScore = 0;
+    private static String highScoreName = "";
 
     public static void main(String[] args) {
         try (ServerSocket serverSocket = new ServerSocket(12345)) {
@@ -17,15 +18,26 @@ public class GameServer {
 
                     String inputLine;
                     while ((inputLine = in.readLine()) != null) {
+                        System.out.println("Received: " + inputLine);  // Debug print
                         if ("RESET_HIGHSCORE".equals(inputLine)) {
                             highScore = 0;
+                            highScoreName = "";
                             out.println("Highscore has been reset.");
                         } else {
-                            int score = Integer.parseInt(inputLine);
-                            if (score > highScore) {
-                                highScore = score;
+                            String[] parts = inputLine.split(",");
+                            if (parts.length == 2) {
+                                String name = parts[0];
+                                int score = Integer.parseInt(parts[1]);
+
+                                if (score > highScore) {
+                                    highScore = score;
+                                    highScoreName = name;
+                                }
+                                System.out.println("Current high score: " + highScore + " by " + highScoreName);  // Debug print
+                                out.println(highScoreName + "," + highScore);
+                            } else {
+                                System.out.println("Invalid input format: " + inputLine);  // Debug print
                             }
-                            out.println(highScore);
                         }
                     }
                 } catch (IOException e) {
@@ -39,4 +51,3 @@ public class GameServer {
         }
     }
 }
-

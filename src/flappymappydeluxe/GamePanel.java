@@ -43,6 +43,8 @@ public class GamePanel extends JPanel {
     private BufferedImage birdSkinImageFlap;
     private BufferedImage backgroundSkinImage;
 	private DifficultyManagement diff;
+	private static String name="Player";
+	private static String highScoreName="Player";
     AudioPlayer audioPlayer = new AudioPlayer(false);  //for the short sound bytes we define the AudioPlayer with false so that it doesnt repeat itself after occuring once, unlike the background music
 	BirdTestAnimation bi= new BirdTestAnimation();
 	WallImage wi = new WallImage(GamePanel.WIDTH);
@@ -75,6 +77,7 @@ public class GamePanel extends JPanel {
         this.cardLayout = cardLayout;
         this.mainPanel = mainPanel;
 		this.diff=diff;
+		this.highScore = highScore;
         
 		LoadImage();
 		this.addMouseListener(new MouseAdapter() {
@@ -265,23 +268,47 @@ public class GamePanel extends JPanel {
 	}
 
 	public static void sendScoreToServer(int score) {
-        try (Socket socket = new Socket("localhost", 12345);
-             PrintWriter out = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()), true);
-             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
-
-            out.println(score);
-            String response = in.readLine();
-            highScore = Integer.parseInt(response);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+		try (Socket socket = new Socket("localhost", 12345);
+			 PrintWriter out = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()), true);
+			 BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
+	
+			// Send the name and score to the server
+			String playerName = GamePanel.name;
+			out.println(playerName + "," + score);
+	
+			// Receive the response from the server (high score and name)
+			String response = in.readLine();
+			String[] responseParts = response.split(",");
+			if (responseParts.length == 2) {
+				String highScoreName = responseParts[0];
+				GamePanel.highScore = Integer.parseInt(responseParts[1]);
+				System.out.println("Highscore: " + highScore + " by " + highScoreName);  // Debug print
+	
+				// Update the game UI or internal state with the high score and name
+				// For example:
+				// GamePanel.setHighScore(highScore, highScoreName);
+			} else {
+				System.out.println("Invalid response format: " + response);  // Debug print
+			}
+	
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
 	public static int popUpMessage() {  //Game Over pop up message with text plus the score
 		String[] options = {"Restart", "Back to Main Menu", "Exit"};
-        int dialogResult = JOptionPane.showOptionDialog(null, "Game Over, your score is " + GamePanel.score + "\n The current Highscore is : " + GamePanel.highScore, "GAME OVER!",
+        int dialogResult = JOptionPane.showOptionDialog(null, "Game Over, your score is " + GamePanel.score + "\n The current Highscore of " + GamePanel.highScore+" is hold by "+GamePanel.highScoreName, "GAME OVER!",
                 JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
         return dialogResult;
+	}
+
+	public static void setPlayerName(String name) {
+		GamePanel.highScoreName = name;
+	}
+	public static String getPlayerName() {
+		return highScoreName;
 	}
 }
 	

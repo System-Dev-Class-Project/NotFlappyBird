@@ -65,7 +65,7 @@ public class WallImage {
     public void wallMovement(CoinImage coin, BirdTestAnimation bird, InvincibilityPower invPower, AudioPlayer audioPlayer) {
         // Resetting the wall position after it leaves the screen on the left
         this.audioPlayer = audioPlayer;
-        X += speed - (GamePanel.score / 4);
+        X += speed - (GamePanel.score / DifficultyManagement.getSpeed()); // Increase speed based on score
 
         if (!hasPassed && X < bird.getX()) {
             hasPassed = true;

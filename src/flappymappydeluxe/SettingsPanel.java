@@ -38,6 +38,7 @@ public class SettingsPanel extends JPanel {
         settingsContainer.setOpaque(false); // Make settings container transparent
 
         // Add settings to the settings container
+        addSetting(settingsContainer, "Player Name", value -> difficulty.setPlayerName(String.valueOf(value)), () -> String.valueOf(difficulty.getPlayerName()));
         addSetting(settingsContainer, "Enemy Score", value -> difficulty.setEnemyScore(Integer.parseInt(value)), () -> String.valueOf(difficulty.getEnemyScore()));
         addSetting(settingsContainer, "Powerup Score", value -> difficulty.setPowerupScore(Integer.parseInt(value)), () -> String.valueOf(difficulty.getPowerupScore()));
         addSetting(settingsContainer, "Speed", value -> difficulty.setSpeed(Integer.parseInt(value)), () -> String.valueOf(difficulty.getSpeed()));
