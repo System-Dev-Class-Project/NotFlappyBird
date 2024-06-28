@@ -246,8 +246,7 @@ public class ShopPanel extends JPanel {
                 break;
             case "Bird Skins":
                 activeBirdSkinIdle = skin;
-                break;
-            
+                break; 
         }
         JOptionPane.showMessageDialog(this, "You have equipped " + skin + "!"+"\n" + "Restart the game for changes to apply.");
         saveSkins(); // Save skins after setting the active skin
