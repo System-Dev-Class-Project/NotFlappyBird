@@ -103,7 +103,6 @@ public class GamePanel extends JPanel {
 	
 	private void LoadImage() {
 		try {
-		img = ImageIO.read(new File("NotFlappyBird-main/Images/origbigtruesize.png"));
 
         // Load active skins
         String activePipeSkin = shopPanel.getActivePipeSkin();
@@ -250,22 +249,11 @@ public class GamePanel extends JPanel {
 	
 	
 		if (!wi.hasPassed && wi.X <= BirdTestAnimation.x) {  //for the 1st column
-	        score++;
-	        wi.hasPassed = false;
-	    }
+			score++;
+			wi.hasPassed = false;
+		}
+		}
 
-
-
-	    // Gradually increase the speed based on the score
-	    WallImage.speed -= (score / 100);
-
-	    // Ensure that the speed does not become too fast or too slow
-	    if (WallImage.speed < -10) {
-	        WallImage.speed = -10; // Set a maximum speed limit
-	    } else if (WallImage.speed > -2) {
-	        WallImage.speed = -2; // Set a minimum speed limit
-	    }
-	}
 
 	public static void sendScoreToServer(int score) {
 		try (Socket socket = new Socket("localhost", 12345);
