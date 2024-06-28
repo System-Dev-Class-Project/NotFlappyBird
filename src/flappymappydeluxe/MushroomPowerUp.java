@@ -54,7 +54,7 @@ public class MushroomPowerUp implements AttractableObject{
     }
 
     public void movePowerUp(WallImage wall, BirdTestAnimation bird) {
-        x += WallImage.speed - (GamePanel.score / 4); // Move the power-up at the same speed as the wall
+        x += WallImage.speed - (GamePanel.score / DifficultyManagement.getSpeed()); // Move the power-up at the same speed as the wall
 
         if (x < -diameter) { // If the power-up moves off-screen
             visible = false; // Make the power-up invisible

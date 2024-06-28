@@ -74,7 +74,7 @@ public class Enemy_Gumba implements Enemy{
     }
 
     public void moveEnemy(WallImage wall) {
-        x += WallImage.speed - (GamePanel.score / 4)-speed; // Move the power-up at the same speed as the wall
+        x += WallImage.speed - (GamePanel.score / DifficultyManagement.getSpeed())-speed; // Move the power-up at the same speed as the wall
 
         if (x < -diameter-1000) { // If the power-up moves off-screen
             visible = false; // Make the power-up invisible

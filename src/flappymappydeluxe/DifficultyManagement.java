@@ -18,7 +18,7 @@ public class DifficultyManagement {
     private List<Enemy> enemies = new ArrayList<>();
     private int enemyScore = 4; // Score interval for enemy spawn
     private int powerupScore = 2; // Score interval for power-up spawn
-    private int speed = 1; // Speed of the game
+    private static int speed = 4; // Speed of the game
     private int hearts = 3; // Number of hearts
     private static int MultipleEnemies = 10;
     boolean enemySpawnedForCurrentScore = true;
@@ -128,7 +128,7 @@ public class DifficultyManagement {
         return powerUpProbabilities;
     }
 
-    public int getSpeed() {
+    public static int getSpeed() {
         return speed;
     }
 
@@ -142,6 +142,14 @@ public class DifficultyManagement {
    
     public static boolean powerupSpawnedForCurrentScore() {
         return powerupSpawnedForCurrentScore;
+    }
+
+    public static String getPlayerName() {
+        return GamePanel.getPlayerName();
+    }
+
+    public void setPlayerName(String name) {
+        GamePanel.setPlayerName(name);
     }
 
 }
