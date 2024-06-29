@@ -13,11 +13,11 @@ import java.io.File;
 
 public class Button {
     
-    private int x, y, width, height;
-    private String text;
-    private Color textColor;
-    private Font font;
-    private Image buttonImage;
+    private int x, y, width, height; // Button coordinates and size
+    private String text; // Button text
+    private Color textColor; // Text color
+    private Font font; // Text font
+    private Image buttonImage; // Button image
     
     // Button constructor
     public Button(int x, int y, int width, int height, String text, String imagePath) {
