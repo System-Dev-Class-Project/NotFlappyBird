@@ -23,11 +23,11 @@ public class ShopPanel extends JPanel {
 
     // Constants for available skins
     private static final String[] PIPE_SKINS = {"Posh Purple", "Business Black", "Royal Blue"};
-    private static final String[] BACKGROUND_SKINS = {"Cloudy Blues", "Ocean Landscape", "Metropolis"};
+    private static final String[] BACKGROUND_SKINS = {"Cloudy Blues", "FS School", "Metropolis"};
     private static final String[] BIRD_SKINS = {"Purple", "Blue", "The Original"};
     // Paths to skin images
     private static final String[] PIPE_SKIN_IMAGES = {"NotFlappyBird-main/ShopSkins/purplePipe.png", "NotFlappyBird-main/ShopSkins/blackPipe.png", "NotFlappyBird-main/ShopSkins/bluePipe.png"};
-    private static final String[] BACKGROUND_SKIN_IMAGES = {"NotFlappyBird-main/ShopSkins/blueCloudsBackground.png", "NotFlappyBird-main/ShopSkins/OceanBackground.png", "NotFlappyBird-main/ShopSkins/blueBackgroundCity.png"};
+    private static final String[] BACKGROUND_SKIN_IMAGES = {"NotFlappyBird-main/ShopSkins/blueCloudsBackground.png", "NotFlappyBird-main/ShopSkins/FS_pixelBackground.png", "NotFlappyBird-main/ShopSkins/blueBackgroundCity.png"};
     private static final String[] BIRD_SKIN_IMAGES = {"NotFlappyBird-main/ShopSkins/purpleBirdIdle.png", "NotFlappyBird-main/ShopSkins/blueBirdIdle.png", "NotFlappyBird-main/ShopSkins/yellowBirdIdle.png"};
     private static final int SKIN_PRICE = 50; // price for skins
 
@@ -295,7 +295,7 @@ public class ShopPanel extends JPanel {
         // Determine skin type based on skin name
         if (skin.equals("Original Pipe") || skin.equals("Posh Purple") || skin.equals("Business Black") || skin.equals("Royal Blue")) {
             return "Pipe Skins";
-        } else if (skin.equals("Original Background") || skin.equals("Cloudy Blues") || skin.equals("Ocean Landscape") || skin.equals("Metropolis")) {
+        } else if (skin.equals("Original Background") || skin.equals("Cloudy Blues") || skin.equals("FS School") || skin.equals("Metropolis")) {
             return "Background Skins";
         } else if (skin.equals("Original Bird") || skin.equals("Purple") || skin.equals("Blue") || skin.equals("The Original")) {
             return "Bird Skins";
@@ -320,7 +320,11 @@ public class ShopPanel extends JPanel {
                 break;
             case "Bird Skins":
                 activeBirdSkinIdle = skin;
+
                 break;
+
+     
+
         }
         JOptionPane.showMessageDialog(this, "You have equipped " + skin + "!"+"\n" + "Restart the game for changes to apply.");
         saveSkins(); // Save skins after setting active skin
@@ -343,7 +347,7 @@ public class ShopPanel extends JPanel {
             case "Cloudy Blues":
                 return "NotFlappyBird-main/ShopSkins/blueCloudsBackground.png";
             case "Ocean Landscape":
-                return "NotFlappyBird-main/ShopSkins/OceanBackground.png";
+                return "NotFlappyBird-main/ShopSkins/FS_pixelBackground.png";
             case "Metropolis":
                 return "NotFlappyBird-main/ShopSkins/blueBackgroundCity.png";
             case "Purple":

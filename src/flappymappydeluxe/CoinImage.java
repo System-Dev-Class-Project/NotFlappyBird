@@ -60,7 +60,11 @@ public class CoinImage implements AttractableObject {
 
     // Method to move the coin and handle its interactions
     public void moveCoin() {
+
         x += WallImage.speed - (GamePanel.score / 4); // Move the coin with the wall's speed
+
+        x += WallImage.speed-(GamePanel.score/DifficultyManagement.getSpeed()); // Move the coin at the same speed as the wall
+
         
         Rectangle coin = new Rectangle(x, y, diameter, diameter);
         if (x < -diameter) { // If the coin moves off-screen

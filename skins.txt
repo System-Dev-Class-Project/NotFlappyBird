@@ -1,8 +1,13 @@
 Original Pipe
-null
-The Original
+FS School
+Blue
 Posh Purple=true
+FS School=true
+Metropolis=true
 Original Pipe=true
+Blue=true
 Original Background=true
 The Original=true
 Original Bird=true
+Cloudy Blues=true
+Ocean Landscape=true

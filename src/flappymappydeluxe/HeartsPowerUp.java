@@ -59,7 +59,7 @@ public class HeartsPowerUp implements AttractableObject{
     }
 
     public void movePowerUp(WallImage wall, BirdTestAnimation bird) {
-        x += WallImage.speed - (GamePanel.score / 4); // Move the power-up at the same speed as the wall
+        x += WallImage.speed - (GamePanel.score / DifficultyManagement.getSpeed()); // Move the power-up at the same speed as the wall
 
         //y += vy;
 
