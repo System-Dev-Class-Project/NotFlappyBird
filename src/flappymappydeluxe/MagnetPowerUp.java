@@ -5,7 +5,6 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import javax.imageio.ImageIO;
-import java.util.ArrayList;
 import java.util.List;
 
 public class MagnetPowerUp implements AttractableObject{
