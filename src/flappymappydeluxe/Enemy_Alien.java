@@ -60,7 +60,11 @@ public class Enemy_Alien implements Enemy {
 
     // Move the alien
     public void moveEnemy(WallImage wall) {
+
         x += WallImage.speed - (GamePanel.score / 4); // Move the alien at the same speed as the wall
+
+        x += WallImage.speed - (GamePanel.score / DifficultyManagement.getSpeed()); // Move the power-up at the same speed as the wall
+
 
         if (x < -diameter - 1000) { // If the alien moves off-screen
             visible = false; // Make the alien invisible

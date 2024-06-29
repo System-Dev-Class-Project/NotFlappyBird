@@ -69,7 +69,11 @@ public class WallImage {
     // Method to handle wall movement and interactions with other objects
     public void wallMovement(CoinImage coin, BirdTestAnimation bird, InvincibilityPower invPower, AudioPlayer audioPlayer) {
         this.audioPlayer = audioPlayer;
+
         X += speed - (GamePanel.score / 4); // Move the wall to the left
+
+        X += speed - (GamePanel.score / DifficultyManagement.getSpeed()); // Increase speed based on score
+
 
         if (!hasPassed && X < bird.getX()) {
             hasPassed = true; // Mark the wall as passed when the bird goes beyond it

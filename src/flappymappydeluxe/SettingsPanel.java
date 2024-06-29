@@ -38,8 +38,9 @@ public class SettingsPanel extends JPanel {
         settingsContainer.setOpaque(false); // Make settings container transparent
 
         // Add settings to the settings container
-        addSetting(settingsContainer, "Enemy Score", value -> difficulty.setEnemyScore(Integer.parseInt(value)), () -> String.valueOf(difficulty.getEnemyScore()));
-        addSetting(settingsContainer, "Powerup Score", value -> difficulty.setPowerupScore(Integer.parseInt(value)), () -> String.valueOf(difficulty.getPowerupScore()));
+        addSetting(settingsContainer, "Player Name", value -> difficulty.setPlayerName(String.valueOf(value)), () -> String.valueOf(difficulty.getPlayerName()));
+        addSetting(settingsContainer, "Score rate at which enemies spawn", value -> difficulty.setEnemyScore(Integer.parseInt(value)), () -> String.valueOf(difficulty.getEnemyScore()));
+        addSetting(settingsContainer, "Score rate at which powerups spawn", value -> difficulty.setPowerupScore(Integer.parseInt(value)), () -> String.valueOf(difficulty.getPowerupScore()));
         addSetting(settingsContainer, "Speed", value -> difficulty.setSpeed(Integer.parseInt(value)), () -> String.valueOf(difficulty.getSpeed()));
         addSetting(settingsContainer, "Hearts", value -> difficulty.setHearts(Integer.parseInt(value)), () -> String.valueOf(difficulty.getHearts()));
         addSetting(settingsContainer, "Multiple Enemies", value -> difficulty.setMultipleEnemies(Integer.parseInt(value)), () -> String.valueOf(difficulty.getMultipleEnemies()));
