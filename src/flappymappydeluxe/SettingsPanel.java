@@ -39,11 +39,11 @@ public class SettingsPanel extends JPanel {
 
         // Add settings to the settings container
         addSetting(settingsContainer, "Player Name", value -> difficulty.setPlayerName(String.valueOf(value)), () -> String.valueOf(difficulty.getPlayerName()));
-        addSetting(settingsContainer, "Enemy Score", value -> difficulty.setEnemyScore(Integer.parseInt(value)), () -> String.valueOf(difficulty.getEnemyScore()));
-        addSetting(settingsContainer, "Powerup Score", value -> difficulty.setPowerupScore(Integer.parseInt(value)), () -> String.valueOf(difficulty.getPowerupScore()));
-        addSetting(settingsContainer, "Speed", value -> difficulty.setSpeed(Integer.parseInt(value)), () -> String.valueOf(difficulty.getSpeed()));
-        addSetting(settingsContainer, "Hearts", value -> difficulty.setHearts(Integer.parseInt(value)), () -> String.valueOf(difficulty.getHearts()));
-        addSetting(settingsContainer, "Multiple Enemies", value -> difficulty.setMultipleEnemies(Integer.parseInt(value)), () -> String.valueOf(difficulty.getMultipleEnemies()));
+        addSetting(settingsContainer, "Score rate at which Enemies spawn", value -> difficulty.setEnemyScore(Integer.parseInt(value)), () -> String.valueOf(difficulty.getEnemyScore()));
+        addSetting(settingsContainer, "Score rate at which PowerUps spawn", value -> difficulty.setPowerupScore(Integer.parseInt(value)), () -> String.valueOf(difficulty.getPowerupScore()));
+        addSetting(settingsContainer, "Score rate at which Speed increases", value -> difficulty.setSpeed(Integer.parseInt(value)), () -> String.valueOf(difficulty.getSpeed()));
+        addSetting(settingsContainer, "Starting Hearts", value -> difficulty.setHearts(Integer.parseInt(value)), () -> String.valueOf(difficulty.getHearts()));
+        addSetting(settingsContainer, "Number of Enemies per Spawn", value -> difficulty.setMultipleEnemies(Integer.parseInt(value)), () -> String.valueOf(difficulty.getMultipleEnemies()));
         addSetting(settingsContainer, "PowerUp Probabilities", value -> {
             String[] values = value.split(",");
             double[] probabilities = new double[values.length];

@@ -107,7 +107,7 @@ public class GamePanel extends JPanel {
         // Load active skins
         String activePipeSkin = shopPanel.getActivePipeSkin();
         String activeBackgroundSkin = shopPanel.getActiveBackgroundSkin();
-        String activeBirdSkin = shopPanel.getActiveBirdSkinIdle();
+        
 
         // Load corresponding images based on active skins
         if (activePipeSkin != null) {
@@ -135,8 +135,8 @@ public class GamePanel extends JPanel {
                 case "Cloudy Blues":
                     backgroundSkinImage = ImageIO.read(new File("NotFlappyBird-main/ShopSkins/blueCloudsBackground.png"));
                     break;
-                case "Ocean Landscape":
-                    backgroundSkinImage = ImageIO.read(new File("NotFlappyBird-main/ShopSkins/OceanBackground.png"));
+                case "FS_School":
+                    backgroundSkinImage = ImageIO.read(new File("NotFlappyBird-main/ShopSkins/FS_School.png"));
                     break;
                 case "Metropolis":
                     backgroundSkinImage = ImageIO.read(new File("NotFlappyBird-main/ShopSkins/blueBackgroundCity.png"));
@@ -199,7 +199,6 @@ public class GamePanel extends JPanel {
 		
 		g.setFont(new Font("Tahoma", Font.BOLD, 40));   //displays score
 		g.drawString(("Score "+score), 250, 75); //positions the displayed count
-		g.drawString("Coins: " + CoinImage.getCoinCount()+"heart"+HeartsPowerUp.getHearts(), 20, 700);
 		g.drawString("Total Coins: " + CoinImage.loadCoinCount(), 20, 600);
 		
 	
