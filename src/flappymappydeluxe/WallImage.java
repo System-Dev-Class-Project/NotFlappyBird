@@ -12,29 +12,37 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 
+/**
+ * The WallImage class represents the walls that the player must navigate through in the game.
+ * It manages the movement, drawing, and collision detection of the walls.
+ */
 public class WallImage {
-    
-    private Random r = new Random();
-    public int X;
-    public int Y = r.nextInt(GamePanel.HEIGHT - 400) + 200;    // max 600 min 200
-    public int width_Wall = 55;
-    private int height = GamePanel.HEIGHT - Y;
-    public static int gap = 200;
-    public boolean hasPassed = false;
-    public boolean hit = true;
-    private Timer collisionTimer = null;
 
-    private AudioPlayer audioPlayer;
+    private Random r = new Random(); // Random object for generating random gap
+    public int X; // X position of the wall
+    public int Y = r.nextInt(GamePanel.HEIGHT - 400)+200;// max 600 min 200, the vertical position of the lower wall's top edge.
+    public int width_Wall = 55; // Width of the walls
+    private int height = GamePanel.HEIGHT - Y; // Height of the wall of the lower wall
+    public static int gap = 200; // Gap between the walls
+    public boolean  hasPassed = false; // Flag to check if the first wall has been passed
+    private Timer collisionTimer = null; // Timer for collision handling
+    private AudioPlayer audioPlayer; // Audio player for playing sound effects
+    public static int speed = -6; // speed of the game
+    private BufferedImage img = null; // Image of the wall
 
-    public static int speed = -6; // public static to move the game background at the same speed
-
-    private BufferedImage img = null;
-
+    /**
+     * Constructs a WallImage at the specified X position.
+     *
+     * @param X the X coordinate of the wall
+     */
     public WallImage(int X) {
         this.X = X;
         LoadImage();
     }
 
+    /**
+     * Loads the wall image from a file.
+     */
     private void LoadImage() {
         try {
             img = ImageIO.read(new File("NotFlappyBird-main/Images/pipe-greendoublefinal.png"));
@@ -43,88 +51,103 @@ public class WallImage {
         }
     }
 
+    /**
+     * Sets the image to be used for the wall.
+     *
+     * @param pipeImage the BufferedImage to set as the wall image
+     */
     public void setPipeImage(BufferedImage pipeImage) {
         this.img = pipeImage;
     }
 
+    /**
+     * Draws the wall on the screen.
+     *
+     * @param g the Graphics object used for drawing
+     */
     public void drawWall(Graphics g) {
         g.drawImage(img, X, Y, null);  // bottom wall
         g.drawImage(img, X, (-GamePanel.HEIGHT + (Y - gap)), null); // upper wall
     }
 
-    // Resets the walls and sets game over to true
-    private void wall_Reset(CoinImage coin, MagnetPowerUp magnetPower) {                         
-        Y = r.nextInt(GamePanel.HEIGHT - 400) + 200;
-        height = GamePanel.HEIGHT - Y;
-        coin.setY(Y - (gap / 2)); // Adjust Y position if necessary
-        magnetPower.setY(Y - (gap / 2)); // Adjust Y position if necessary
-        GamePanel.GameOver = true;
-        GamePanel.hasPassed = true;
-    }
-
-    public void wallMovement(CoinImage coin, BirdTestAnimation bird, InvincibilityPower invPower, AudioPlayer audioPlayer) {
-        // Resetting the wall position after it leaves the screen on the left
+    
+    /**
+     * Manages the movement of the wall and checks for collisions with the player.
+     *
+     * @param coin the CoinImage object to be moved with the wall
+     * @param bird the BirdTestAnimation object representing the player's character
+     * @param invPower the InvincibilityPower object for checking invincibility status
+     * @param audioPlayer the AudioPlayer object for playing sound effects
+     */
+    public void wallMovement(CoinImage coin, BirdTestAnimation bird, AudioPlayer audioPlayer) {
         this.audioPlayer = audioPlayer;
         X += speed - (GamePanel.score / DifficultyManagement.getSpeed()); // Increase speed based on score
 
-        if (!hasPassed && X < bird.getX()) {
+        if (!hasPassed && X < bird.getX()) { // Check if the first wall has been passed, important for the first score
             hasPassed = true;
         }
 
         if (X <= -width_Wall) {
             X = GamePanel.WIDTH;
-            Y = r.nextInt(GamePanel.HEIGHT - 400) + 200; 
-            height = GamePanel.HEIGHT - Y; 
+            Y = r.nextInt(GamePanel.HEIGHT - 400) + 200;
+            height = GamePanel.HEIGHT - Y;
             coin.setVisible(true);
             coin.setX(X + 15); // Adjust X coin position
-            coin.setY(Y - (gap / 2)); // Adjust Y position 
+            coin.setY(Y - (gap / 2)); // Adjust Y position
             GamePanel.score += 1;
         }
 
+        handleCollision();
+    }
+
+    /**
+     * Handles the collision detection between the wall and the bird.
+     */
+    private void handleCollision() {
         if (!InvincibilityPower.isInvincible()) {
-            Rectangle lowerRect = new Rectangle(X, Y, width_Wall, height);
-            Rectangle upperRect = new Rectangle(X, 0, width_Wall, GamePanel.HEIGHT - (height + gap));
-            // We call the getBirdRect method which is why it needs to be static
-            if ((lowerRect.intersects(BirdTestAnimation.getBirdRect()) || upperRect.intersects(BirdTestAnimation.getBirdRect())) && HeartsPowerUp.getHearts() <= 1) {
-            	audioPlayer.play("NotFlappyBird-main/Music/hurt_sound.wav");
-            	audioPlayer.play("NotFlappyBird-main/Music/GameOver_sound.wav");
-                GamePanel.sendScoreToServer(GamePanel.score); // Send the score to the server (if the user is logged in
-                int option = GamePanel.popUpMessage(); // Object collision, leading to game over whenever the bird hits the walls
-                
-                if (option == 0) { // When player clicks yes, meaning they want to play again
+            Rectangle lowerRect = new Rectangle(X, Y, width_Wall, height); // Rectangle representing the lower wall
+            Rectangle upperRect = new Rectangle(X, 0, width_Wall, GamePanel.HEIGHT - (height + gap)); // Rectangle representing the upper wall
+            Rectangle birdRect = BirdTestAnimation.getBirdRect();
+
+            // Collision detection with one or fewer hearts
+            if ((lowerRect.intersects(birdRect) || upperRect.intersects(birdRect)) && HeartsPowerUp.getHearts() <= 1) {
+                audioPlayer.play("NotFlappyBird-main/Music/hurt_sound.wav");
+                audioPlayer.play("NotFlappyBird-main/Music/GameOver_sound.wav");
+                GamePanel.sendScoreToServer(GamePanel.score);
+
+                int option = GamePanel.popUpMessage();
+                if (option == 0) {  // Retry
                     try {
                         Thread.sleep(500);
                     } catch (Exception ex) {
                         ex.printStackTrace();
                     }
-                    BirdTestAnimation.reset(); // Resets the bird to its initial starting coordinates
-                } else if (option == 2) {
+                    BirdTestAnimation.reset();
+                } else if (option == 2) {  // Exit
                     JFrame frame = FlappyClass.getWindow();
-                    MenuPanel.audioPlayer.stop();  // Stops music when pressing no after wall collision
-                    frame.dispose(); // Releases all of the native resources displayed in the window, essentially closing it
+                    MenuPanel.audioPlayer.stop();
+                    frame.dispose();
                     FlappyClass.timer.stop();
-                } else {
-                    // Go back to main menu
+                } else {  // Return to menu
                     MenuPanel.switchMusic("NotFlappyBird-main/Music/1-01. Main Theme (Title Screen).wav");
                     BirdTestAnimation.reset();
                     FlappyClass.timer.stop();
                     FlappyClass.cardLayout.show(FlappyClass.mainPanel, "menu");
                 }
-            } else if ((lowerRect.intersects(BirdTestAnimation.getBirdRect()) || upperRect.intersects(BirdTestAnimation.getBirdRect())) && HeartsPowerUp.getHearts() > 1 && hit) {
-            	audioPlayer.play("NotFlappyBird-main/Music/hurt_sound.wav");  //also play the hurt sound when life is lost
-            	hit = false; // Prevent further collision processing immediately
-                if (collisionTimer == null || !collisionTimer.isRunning()) { // Check if the timer is not running
+            }
+            // Collision detection with more than one heart
+            else if ((lowerRect.intersects(birdRect) || upperRect.intersects(birdRect)) && HeartsPowerUp.getHearts() > 1) {
+                audioPlayer.play("NotFlappyBird-main/Music/hurt_sound.wav");
+                if (collisionTimer == null || !collisionTimer.isRunning()) {
                     collisionTimer = new Timer(500, new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
                             HeartsPowerUp.subHeart();
-                            hit = true; // Re-enable collision processing after the delay
-                            InvincibilityPower.setFalse();
-                            //System.out.println("Heart lost! Current hearts: " + HeartsPowerUp.getHearts());
-                            collisionTimer = null; // Reset the timer reference to allow a new timer to be started
+                            System.out.println("Heart lost! Current hearts: " + HeartsPowerUp.getHearts());
+                            collisionTimer = null; // Reset the timer
                         }
                     });
-                    collisionTimer.setRepeats(false); // Ensure the timer only triggers once
+                    collisionTimer.setRepeats(false); // Set the timer to run once
                     collisionTimer.start(); // Start the timer
                 }
             }

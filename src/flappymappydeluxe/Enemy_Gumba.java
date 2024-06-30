@@ -211,7 +211,7 @@ public class Enemy_Gumba implements Enemy {
     public void spawn(WallImage wall) {
         visible = true;
         // Set the power-up position relative to the wall
-        this.x = wall.X + 400;
-        this.y = 800 - diameter - 25;
+        this.x = wall.X + 400; // Set the x position of the enemy 400 pixels to the right of the wall
+        this.y = 800 - diameter - 25; // Set the y position of the enemy to the ground level
     }
 }

@@ -189,8 +189,8 @@ public void handleCollision() {
     public void spawn(WallImage wall) {
         visible = true;
             // Set the power-up position relative to the wall
-        this.x = wall.X + 300;
-        this.y = rand.nextInt(601); 
+        this.x = wall.X + 300; // Set the x position of the enemy 300 pixels to the right of the wall
+        this.y = rand.nextInt(601); // Set the y position of the enemy to a random value between 0 and 600 (GamePanel height)
     }
 }
 

@@ -199,15 +199,15 @@ public class GamePanel extends JPanel {
 		
 		g.setFont(new Font("Tahoma", Font.BOLD, 40));   //displays score
 		g.drawString(("Score "+score), 250, 75); //positions the displayed count
-		g.drawString("Total Coins: " + CoinImage.loadCoinCount(), 20, 600);
+		g.drawString("Total Coins: " + CoinImage.loadCoinCount(), 20, 700);
 		
 	
 	}
 	//here we simply call the move methods from all the other defined objects to make them move as a unity
 	public void Move() {
 		bi.birdMovement(audioPlayer);
-		wi.wallMovement(coinForWi, bi, invPower, audioPlayer);
-		wi2.wallMovement(coinForWi2, bi, invPower, audioPlayer);
+		wi.wallMovement(coinForWi, bi, audioPlayer);
+		wi2.wallMovement(coinForWi2, bi, audioPlayer);
 		coinForWi.moveCoin();
         coinForWi2.moveCoin();
 
