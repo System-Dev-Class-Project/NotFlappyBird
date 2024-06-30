@@ -179,8 +179,8 @@ public void handleCollision() {
     public void spawn(WallImage wall) {
         visible = true;
         // Set the power-up position relative to the wall
-        this.x = wall.X + 500-(diameter/2);
-        this.y = wall.Y - (WallImage.gap / 2)-(diameter/2);
+        this.x = wall.X + 500-(diameter/2); // Sets the center of the alien 500 pixels to the right of the wall 
+        this.y = wall.Y - (WallImage.gap / 2)-(diameter/2); // Sets the center of the alien to the center of the gap in the wall
     }
 
 }

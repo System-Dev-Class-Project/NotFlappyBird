@@ -170,7 +170,7 @@ public class Enemy_Magic_Firebaaaall implements Enemy {
     public void spawn(WallImage wall) {
         visible = true;
         // Set the fireball's position relative to the wall
-        this.x = wall.X + 300;
-        this.y = wall.Y - (WallImage.gap / 2) - (diameter / 2);
+        this.x = wall.X + 300; // Set the fireball's position 300 pixels to the right of the wall
+        this.y = wall.Y - (WallImage.gap / 2) - (diameter / 2); // Set the fireball's position relative to the gap between the walls
     }
 }
