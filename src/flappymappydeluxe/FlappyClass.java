@@ -40,22 +40,23 @@ public class FlappyClass {
 	}
 	
 	private void rendering() {
+		//new cardLayout so we can easily swap the view between the different panels and add new ones without changing the entire code logic
 		cardLayout = new CardLayout();
         mainPanel = new JPanel(cardLayout);
 
-        // Initialize ShopPanel first
+        // Initialize ShopPanel and settingsPanel
         shopPanel = new ShopPanel(cardLayout, mainPanel);
 
         settingsPanel = new SettingsPanel(cardLayout, mainPanel, difficultyManagement, audioPlayer);
 
-        // Now initialize MenuPanel and GamePanel with the initialized shopPanel
+        // Initialize MenuPanel and GamePanel
         menuPanel = new MenuPanel(cardLayout, mainPanel, audioPlayer);
         gamePanel = new GamePanel(shopPanel, cardLayout, mainPanel, difficultyManagement);
 
         mainPanel.add(menuPanel, "menu");
         mainPanel.add(gamePanel, "game");
         mainPanel.add(shopPanel, "shop");
-        mainPanel.add(settingsPanel, "settings");
+        mainPanel.add(settingsPanel, "settings");  //all the different panels are added to one mainPanel as a cardLayout
 
 
         window.add(mainPanel);
@@ -66,10 +67,7 @@ public class FlappyClass {
         timer = new Timer(20, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 gamePanel.repaint(); // it's calling the paint method iteratively
-                gamePanel.Move();
-                menuPanel.repaint();
-                menuPanel.MenuMove();
-                
+                gamePanel.Move(); //moves the gamePanel
             }
         });
 
@@ -92,13 +90,13 @@ public class FlappyClass {
 		fc.rendering();
 		
 	}
-	
+	//starts the game when entered via the Play button in the main menu by starting the game time
 	public static void startGame() {
         if (timer != null && !timer.isRunning()) {
             timer.start();
         }
     }
-
+	//stops the game time, is used whenever the player goes back to the main menu to prevent the game to keep going in the background
     public static void stopGame() {
         if (timer != null && timer.isRunning()) {
             timer.stop();

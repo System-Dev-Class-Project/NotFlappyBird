@@ -8,6 +8,8 @@ import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
+
+// Dev note: You can change the currently owned amount of coins in the coins .txt file to test all skins!
 public class ShopPanel extends JPanel {
 
     private CardLayout cardLayout;
@@ -21,11 +23,29 @@ public class ShopPanel extends JPanel {
     private static final String[] PIPE_SKINS = {"Posh Purple", "Business Black", "Royal Blue"};
     private static final String[] BACKGROUND_SKINS = {"Cloudy Blues", "FS_School", "Metropolis"};
     private static final String[] BIRD_SKINS = {"Purple", "Blue", "The Original"};
-    private static final String[] PIPE_SKIN_IMAGES = {"NotFlappyBird-main/ShopSkins/purplePipe.png", "NotFlappyBird-main/ShopSkins/blackPipe.png", "NotFlappyBird-main/ShopSkins/bluePipe.png"};
-    private static final String[] BACKGROUND_SKIN_IMAGES = {"NotFlappyBird-main/ShopSkins/blueCloudsBackground.png", "NotFlappyBird-main/ShopSkins/FS_School.png", "NotFlappyBird-main/ShopSkins/blueBackgroundCity.png"};
-    private static final String[] BIRD_SKIN_IMAGES = {"NotFlappyBird-main/ShopSkins/purpleBirdIdle.png", "NotFlappyBird-main/ShopSkins/blueBirdIdle.png", "NotFlappyBird-main/ShopSkins/yellowBirdIdle.png"};
+    private static final String[] PIPE_SKIN_IMAGES = {
+        "NotFlappyBird-main/ShopSkins/purplePipe.png", 
+        "NotFlappyBird-main/ShopSkins/blackPipe.png", 
+        "NotFlappyBird-main/ShopSkins/bluePipe.png"
+    };
+    private static final String[] BACKGROUND_SKIN_IMAGES = {
+        "NotFlappyBird-main/ShopSkins/blueCloudsBackground.png", 
+        "NotFlappyBird-main/ShopSkins/FS_School.png", 
+        "NotFlappyBird-main/ShopSkins/blueBackgroundCity.png"
+    };
+    private static final String[] BIRD_SKIN_IMAGES = {
+        "NotFlappyBird-main/ShopSkins/purpleBirdIdle.png", 
+        "NotFlappyBird-main/ShopSkins/blueBirdIdle.png", 
+        "NotFlappyBird-main/ShopSkins/yellowBirdIdle.png"
+    };
     private static final int SKIN_PRICE = 50; // Placeholder price
 
+    /**
+     * Constructor for ShopPanel.
+     * Initializes the shop panel with buttons and sets up the action listeners.
+     * @param cardLayout The CardLayout used for switching between panels.
+     * @param mainPanel The main JPanel that holds the different screens.
+     */
     public ShopPanel(CardLayout cardLayout, JPanel mainPanel) {
         this.cardLayout = cardLayout;
         this.mainPanel = mainPanel;
@@ -41,10 +61,10 @@ public class ShopPanel extends JPanel {
         JButton buyPipeSkinButton = createButton("Pipe Skins");
         JButton buyBackgroundSkinButton = createButton("Background Skins");
         JButton buyBirdSkinButton = createButton("Bird Skins");
-        JButton collectionButton = createButton("Collection");
+        JButton collectionButton = createButton("Inventory");
         JButton backButton = createButton("Back to Menu");
 
-        GridBagConstraints gbc = new GridBagConstraints();
+        GridBagConstraints gbc = new GridBagConstraints();  
         gbc.gridx = 0;
         gbc.gridy = GridBagConstraints.RELATIVE;
         gbc.insets = new Insets(10, 10, 10, 10);
@@ -69,6 +89,11 @@ public class ShopPanel extends JPanel {
         });
     }
 
+    /**
+     * Creates a button with the specified text.
+     * @param text The text to be displayed on the button.
+     * @return A JButton with the specified text and predefined styling.
+     */
     private JButton createButton(String text) {
         JButton button = new JButton(text);
         button.setPreferredSize(new Dimension(200, 50));  // Adjusting button size
@@ -80,6 +105,12 @@ public class ShopPanel extends JPanel {
         return button;
     }
 
+    /**
+     * Creates a button with an image and text.
+     * @param text The text to be displayed on the button.
+     * @param imagePath The path to the image to be displayed on the button.
+     * @return A JButton with the specified text, image, and predefined styling.
+     */
     private JButton createImageButton(String text, String imagePath) {
         JButton button = new JButton(text);
         button.setPreferredSize(new Dimension(100, 50));  // Adjusting button size
@@ -95,6 +126,10 @@ public class ShopPanel extends JPanel {
         return button;
     }
 
+    /**
+     * Creates a panel with a background image.
+     * @return A JPanel with a background image.
+     */
     private JPanel createBackgroundPanel() {
         return new JPanel(new GridBagLayout()) {
             @Override
@@ -107,6 +142,12 @@ public class ShopPanel extends JPanel {
         };
     }
 
+    /**
+     * Displays the skin shop for a specific type of skin.
+     * @param skinType The type of skin (e.g., "Pipe Skins").
+     * @param skins An array of skin names.
+     * @param skinImages An array of skin image paths.
+     */
     private void showSkinShop(String skinType, String[] skins, String[] skinImages) {
         JPanel skinShopPanel = createBackgroundPanel();
         skinShopPanel.setLayout(new GridLayout(skins.length + 1, 1, 10, 10));
@@ -129,6 +170,11 @@ public class ShopPanel extends JPanel {
         cardLayout.show(mainPanel, "skinShop");
     }
 
+    /**
+     * Handles the purchase of a skin.
+     * @param skin The name of the skin to be purchased.
+     * @param skinType The type of skin being purchased.
+     */
     private void handleSkinPurchase(String skin, String skinType) {
         if (CoinImage.TotalCoins >= SKIN_PRICE) {
             int confirm = JOptionPane.showConfirmDialog(this, "Are you sure you want to buy " + skin + "?", "Confirm Purchase", JOptionPane.YES_NO_OPTION);
@@ -144,9 +190,11 @@ public class ShopPanel extends JPanel {
         }
     }
 
+    /**
+     * Displays the player's collection of owned skins.
+     */
     private void showCollection() {
-    	JPanel collectionPanel= createBackgroundPanel();
-    	
+        JPanel collectionPanel = createBackgroundPanel();
         collectionPanel.setLayout(new BoxLayout(collectionPanel, BoxLayout.Y_AXIS)); // Use BoxLayout for vertical alignment
 
         JScrollPane scrollPane = new JScrollPane(collectionPanel);
@@ -173,9 +221,15 @@ public class ShopPanel extends JPanel {
         backButton.addActionListener(e -> cardLayout.show(mainPanel, "shop"));
         collectionPanel.add(backButton);
 
-        mainPanel.add(collectionPanel, "collection");
-        cardLayout.show(mainPanel, "collection");
+        mainPanel.add(collectionPanel, "Inventory");
+        cardLayout.show(mainPanel, "Inventory");
     }
+
+    /**
+     * Creates a large button with the specified text.
+     * @param text The text to be displayed on the button.
+     * @return A JButton with the specified text and predefined styling.
+     */
     private JButton createLargeButton(String text) {
         JButton button = new JButton(text);
         button.setPreferredSize(new Dimension(300, 70));  // Adjusting button size
@@ -188,6 +242,12 @@ public class ShopPanel extends JPanel {
         return button;
     }
 
+    /**
+     * Creates a large button with an image and text.
+     * @param text The text to be displayed on the button.
+     * @param imagePath The path to the image to be displayed on the button.
+     * @return A JButton with the specified text, image, and predefined styling.
+     */
     private JButton createLargeImageButton(String text, String imagePath) {
         JButton button = new JButton(text);
         button.setPreferredSize(new Dimension(300, 70));  // Adjusting button size
@@ -204,6 +264,10 @@ public class ShopPanel extends JPanel {
         return button;
     }
 
+    /**
+     * Adds default skins to the collection if they are not already owned.
+     * @param collectionPanel The panel to which the default skins will be added.
+     */
     private void addDefaultSkins(JPanel collectionPanel) {
         if (!ownedItems.containsKey("Original Pipe")) {
             JButton defaultPipeSkinButton = createImageButton("Use Original Pipe", "NotFlappyBird-main/Images/pipe-greendoublefinal.png");
@@ -224,6 +288,11 @@ public class ShopPanel extends JPanel {
         }
     }
 
+    /**
+     * Determines the type of skin based on the skin name.
+     * @param skin The name of the skin.
+     * @return The type of skin (e.g., "Pipe Skins").
+     */
     private String determineSkinType(String skin) {
         if (skin.equals("Original Pipe") || skin.equals("Posh Purple") || skin.equals("Business Black") || skin.equals("Royal Blue")) {
             return "Pipe Skins";
@@ -236,6 +305,11 @@ public class ShopPanel extends JPanel {
         }
     }
 
+    /**
+     * Sets the active skin based on the skin type.
+     * @param skin The name of the skin.
+     * @param skinType The type of skin.
+     */
     private void setActiveSkin(String skin, String skinType) {
         switch (skinType) {
             case "Pipe Skins":
@@ -248,10 +322,15 @@ public class ShopPanel extends JPanel {
                 activeBirdSkinIdle = skin;
                 break; 
         }
-        JOptionPane.showMessageDialog(this, "You have equipped " + skin + "!"+"\n" + "Restart the game for changes to apply.");
+        JOptionPane.showMessageDialog(this, "You have equipped " + skin + "!" + "\n" + "Restart the game for changes to apply.");
         saveSkins(); // Save skins after setting the active skin
     }
 
+    /**
+     * Retrieves the image path for a given skin.
+     * @param skin The name of the skin.
+     * @return The image path for the skin.
+     */
     private String getImagePath(String skin) {
         switch (skin) {
             case "Posh Purple":
@@ -262,7 +341,7 @@ public class ShopPanel extends JPanel {
                 return "NotFlappyBird-main/ShopSkins/bluePipe.png";
             case "Cloudy Blues":
                 return "NotFlappyBird-main/ShopSkins/blueCloudsBackground.png";
-            case "Ocean Landscape":
+            case "FS_School":
                 return "NotFlappyBird-main/ShopSkins/FS_School.png";
             case "Metropolis":
                 return "NotFlappyBird-main/ShopSkins/blueBackgroundCity.png";
@@ -282,6 +361,11 @@ public class ShopPanel extends JPanel {
                 return "";
         }
     }
+
+    /**
+     * Initializes the default owned items.
+     * By default, the original skins are owned.
+     */
     private void initializeOwnedItems() {
         // Initialize original skins as owned
         ownedItems.put("Original Pipe", true);
@@ -289,18 +373,34 @@ public class ShopPanel extends JPanel {
         ownedItems.put("Original Bird", true);
     }
 
+    /**
+     * Gets the active pipe skin.
+     * @return The active pipe skin.
+     */
     public String getActivePipeSkin() {
         return activePipeSkin;
     }
 
+    /**
+     * Gets the active background skin.
+     * @return The active background skin.
+     */
     public String getActiveBackgroundSkin() {
         return activeBackgroundSkin;
     }
 
+    /**
+     * Gets the active idle bird skin.
+     * @return The active idle bird skin.
+     */
     public static String getActiveBirdSkinIdle() {
         return activeBirdSkinIdle;
     }
 
+    /**
+     * Saves the skins to a file.
+     * This method saves the active skins and the owned items to "skins.txt".
+     */
     private void saveSkins() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("skins.txt"))) {
             writer.write(activePipeSkin + "\n");
@@ -314,6 +414,10 @@ public class ShopPanel extends JPanel {
         }
     }
 
+    /**
+     * Loads the skins from a file.
+     * This method loads the active skins and the owned items from "skins.txt".
+     */
     private void loadSkins() {
         try (BufferedReader reader = new BufferedReader(new FileReader("skins.txt"))) {
             activePipeSkin = reader.readLine();

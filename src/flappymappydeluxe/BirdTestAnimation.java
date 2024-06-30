@@ -45,7 +45,7 @@ public class BirdTestAnimation {
         try {
             if (mushroom) {
                 bird_dia = mushroom_dia;
-                // Load the smaller bird images
+                // We need to load the correctlu colored smaller bird images for the currently active skin
                 if (activeBirdSkin != null) {
                     switch (activeBirdSkin) {
                         case "Purple":

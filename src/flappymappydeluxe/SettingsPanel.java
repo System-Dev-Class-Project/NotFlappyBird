@@ -43,8 +43,8 @@ public class SettingsPanel extends JPanel {
         addSetting(settingsContainer, "Score rate at which PowerUps spawn", value -> difficulty.setPowerupScore(Integer.parseInt(value)), () -> String.valueOf(difficulty.getPowerupScore()));
         addSetting(settingsContainer, "Score rate at which Speed increases", value -> difficulty.setSpeed(Integer.parseInt(value)), () -> String.valueOf(difficulty.getSpeed()));
         addSetting(settingsContainer, "Starting Hearts", value -> difficulty.setHearts(Integer.parseInt(value)), () -> String.valueOf(difficulty.getHearts()));
-        addSetting(settingsContainer, "Number of Enemies per Spawn", value -> difficulty.setMultipleEnemies(Integer.parseInt(value)), () -> String.valueOf(difficulty.getMultipleEnemies()));
-        addSetting(settingsContainer, "PowerUp Probabilities", value -> {
+        addSetting(settingsContainer, "Score at which enemy spawns increase", value -> difficulty.setMultipleEnemies(Integer.parseInt(value)), () -> String.valueOf(difficulty.getMultipleEnemies()));
+        addSetting(settingsContainer, "Chance of Star, Mushroom, Heart, Magnet", value -> {
             String[] values = value.split(",");
             double[] probabilities = new double[values.length];
             for (int i = 0; i < values.length; i++) {
@@ -70,14 +70,9 @@ public class SettingsPanel extends JPanel {
             }
         });
 
-        JPanel resetButtonPanel = new JPanel(new GridBagLayout());
-        resetButtonPanel.setOpaque(false);
-        resetButtonPanel.setBorder(new EmptyBorder(20, 0, 20, 0)); // Increase space between reset and back button
-        resetButtonPanel.add(resetHighscoreButton);
-        add(resetButtonPanel, BorderLayout.SOUTH); // Add reset button to the south panel
-
         // Create and add back button
         JButton backButton = createButton("Back to Menu");
+        backButton.setPreferredSize(new Dimension(150, 40)); // Ensure back button has the same size as reset button
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -87,17 +82,22 @@ public class SettingsPanel extends JPanel {
             }
         });
 
-        JPanel buttonPanel = new JPanel(new GridBagLayout());
-        buttonPanel.setOpaque(false); // Make the button panel transparent
-        buttonPanel.add(backButton);
+        // Panels to hold buttons
+        JPanel resetButtonPanel = new JPanel(new BorderLayout());
+        resetButtonPanel.setOpaque(false);
+        resetButtonPanel.add(resetHighscoreButton, BorderLayout.LINE_END);
 
-        // Use a nested panel structure to place the reset button above the back button
+        JPanel backButtonPanel = new JPanel(new BorderLayout());
+        backButtonPanel.setOpaque(false);
+        backButtonPanel.add(backButton, BorderLayout.LINE_START);
+
+        // Use a panel structure to place the reset button and back button at the bottom of the screen
         JPanel southPanel = new JPanel(new BorderLayout());
         southPanel.setOpaque(false);
-        southPanel.add(resetButtonPanel, BorderLayout.NORTH);
-        southPanel.add(buttonPanel, BorderLayout.SOUTH);
+        southPanel.add(resetButtonPanel, BorderLayout.LINE_END);
+        southPanel.add(backButtonPanel, BorderLayout.LINE_START);
 
-        add(southPanel, BorderLayout.SOUTH); // Add the nested panel to the bottom of the main panel
+        add(southPanel, BorderLayout.SOUTH); // Add the panel to the bottom of the main panel
 
         // Debug prints
         System.out.println("SettingsPanel initialized");
@@ -164,7 +164,7 @@ public class SettingsPanel extends JPanel {
                 g2.dispose();
             }
         };
-        button.setPreferredSize(new Dimension(200, 50));
+        button.setPreferredSize(new Dimension(150, 40)); // Set smaller size
         button.setFont(new Font("Arial", Font.BOLD, 14));
         button.setForeground(Color.BLACK); // Set button text color to black
         button.setFocusPainted(false);

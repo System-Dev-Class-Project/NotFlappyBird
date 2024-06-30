@@ -185,7 +185,7 @@ public class GamePanel extends JPanel {
 		bi.drawBird(g);   //the bird
 		wi.drawWall(g);  //we display two separate walls iteratively, wi and wi2
 		wi2.drawWall(g);
-		coinForWi.drawCoin(g);
+		coinForWi.drawCoin(g);    //same for the coins, one for each wall
         coinForWi2.drawCoin(g);
 
 		for (AttractableObject powerUp : powerUps) {
@@ -203,6 +203,7 @@ public class GamePanel extends JPanel {
 		
 	
 	}
+	//here we simply call the move methods from all the other defined objects to make them move as a unity
 	public void Move() {
 		bi.birdMovement(audioPlayer);
 		wi.wallMovement(coinForWi, bi, invPower, audioPlayer);
@@ -224,13 +225,13 @@ public class GamePanel extends JPanel {
 
 		 
 		if (GameOver) {        //if the GameOver variable is true, we reset the wall coordinates and reset GameOver to false               
-			wi.X=GamePanel.WIDTH;
+			wi.X=GamePanel.WIDTH;                            //resets both wall coordinates
 			wi2.X=GamePanel.WIDTH+(GamePanel.WIDTH/2);
-			coinForWi.setX(wi.X+10);
+			coinForWi.setX(wi.X+10);     //resets both coins and makes them visible
 			coinForWi.setVisible(true);
 			coinForWi2.setX(wi2.X+10);
 			coinForWi2.setVisible(true);
-			GameOver = false;
+			GameOver = false;     //resets gameOver to false
 			wi.hasPassed = false;
 			for (Enemy enemy : enemies) {
 				enemy.setVisible(false);
@@ -290,10 +291,11 @@ public class GamePanel extends JPanel {
                 JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
         return dialogResult;
 	}
-
+	//set player name functionality via the settings panel
 	public static void setPlayerName(String name) {
 		GamePanel.highScoreName = name;
 	}
+	//getter for player name
 	public static String getPlayerName() {
 		return highScoreName;
 	}
