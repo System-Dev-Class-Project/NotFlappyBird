@@ -119,7 +119,7 @@ public class BirdTestAnimation {
         for (int i = 0; i < frames.length; i++) {
             Color color = colors[(i + rainbowOffset) % colors.length];
             g.setColor(color);
-            g.drawImage(frames[i], x, y, null);
+            g.drawImage(frames[currentFrameIndex], x, y, null); // Draw normal bird frames
         }
 
         // Update rainbow offset for animation
