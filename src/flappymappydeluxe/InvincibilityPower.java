@@ -102,6 +102,13 @@ public class InvincibilityPower implements AttractableObject {
             invincible = false;
         }
 
+        /**if (GamePanel.score % 1 == 0) {
+            visible = true;
+            // Set the power-up position relative to the wall
+            this.x = wall.X + 10;
+            this.y = wall.Y - (WallImage.gap / 2);
+        }*/
+
         if (getPowerUpRect().intersects(BirdTestAnimation.getBirdRect()) && visible) {
             audioPlayer.play("NotFlappyBird-main/Music/InvincibilityPowerUp_sound.wav");
             visible = false; // Make the power-up disappear

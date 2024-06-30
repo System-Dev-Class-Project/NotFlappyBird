@@ -206,8 +206,8 @@ public class GamePanel extends JPanel {
 	}
 	public void Move() {
 		bi.birdMovement(audioPlayer);
-		wi.wallMovement(coinForWi, bi, invPower, audioPlayer);
-		wi2.wallMovement(coinForWi2, bi, invPower, audioPlayer);
+		wi.wallMovement(coinForWi, bi, audioPlayer);
+		wi2.wallMovement(coinForWi2, bi, audioPlayer);
 		coinForWi.moveCoin();
         coinForWi2.moveCoin();
 
@@ -255,34 +255,41 @@ public class GamePanel extends JPanel {
 		}
 
 
+		/**
+	 * Sends the player's score to the game server and updates the high score if necessary.
+	 *
+	 * @param score The player's current score.
+	 */
 	public static void sendScoreToServer(int score) {
+		// Try-with-resources statement to automatically close the socket and I/O streams
 		try (Socket socket = new Socket("localhost", 12345);
-			 PrintWriter out = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()), true);
-			 BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
-	
+			PrintWriter out = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()), true);
+			BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
+
 			// Send the name and score to the server
 			String playerName = GamePanel.name;
 			out.println(playerName + "," + score);
-	
+
 			// Receive the response from the server (high score and name)
 			String response = in.readLine();
 			String[] responseParts = response.split(",");
 			if (responseParts.length == 2) {
 				String highScoreName = responseParts[0];
 				GamePanel.highScore = Integer.parseInt(responseParts[1]);
-				System.out.println("Highscore: " + highScore + " by " + highScoreName);  // Debug print
-	
+				System.out.println("Highscore: " + GamePanel.highScore + " by " + highScoreName);  // Debug print
+
 				// Update the game UI or internal state with the high score and name
 				// For example:
 				// GamePanel.setHighScore(highScore, highScoreName);
 			} else {
 				System.out.println("Invalid response format: " + response);  // Debug print
 			}
-	
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
+
 	
 	
 	public static int popUpMessage() {  //Game Over pop up message with text plus the score

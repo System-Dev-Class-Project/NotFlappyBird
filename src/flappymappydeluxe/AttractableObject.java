@@ -17,7 +17,7 @@ public interface AttractableObject {
     boolean isVisible();
 
     /**
-     * Moves the object towards the player (important for the MagnetClass).
+     * Moves the object towards the player (was important for the MagnetClass but not used anymore).
      *
      * @param x the x-coordinate of the player.
      * @param y the y-coordinate of the player.

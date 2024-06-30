@@ -72,7 +72,6 @@ public class BirdTestAnimation {
                 }
             } else {
                 bird_dia = 36;
-                System.out.println("Mushroom is false");
                 // Load the normal bird images
                 if (activeBirdSkin != null) {
                     switch (activeBirdSkin) {
@@ -113,16 +112,22 @@ public class BirdTestAnimation {
     }
 
     private void drawRainbowBird(Graphics g) {
-        // Draw the bird with rainbow colors
+        // Define an array of rainbow colors
         Color[] colors = {Color.RED, Color.ORANGE, Color.YELLOW, Color.GREEN, Color.BLUE, Color.MAGENTA};
-
+    
+        // Iterate over each frame of the bird animation
         for (int i = 0; i < frames.length; i++) {
+            // Calculate the current color to use by cycling through the colors array
             Color color = colors[(i + rainbowOffset) % colors.length];
+            
+            // Set the current drawing color
             g.setColor(color);
+            
+            // Draw the current frame of the bird at coordinates (x, y)
             g.drawImage(frames[i], x, y, null);
         }
-
-        // Update rainbow offset for animation
+    
+        // Update the rainbow offset for the next animation frame
         rainbowOffset = (rainbowOffset + 1) % colors.length;
     }
 

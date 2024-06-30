@@ -14,6 +14,10 @@ import java.util.Arrays;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
+/**
+ * SettingsPanel is a JPanel that provides a user interface for adjusting game settings
+ * and resetting the high score. It uses a CardLayout to switch between different panels.
+ */
 public class SettingsPanel extends JPanel {
 
     private CardLayout cardLayout;
@@ -22,6 +26,14 @@ public class SettingsPanel extends JPanel {
     private AudioPlayer audioPlayer;
     private BufferedImage backgroundImage;
 
+    /**
+     * Constructs a SettingsPanel with the specified CardLayout, mainPanel, DifficultyManagement, and AudioPlayer.
+     *
+     * @param cardLayout the CardLayout for switching panels
+     * @param mainPanel the main JPanel that contains this SettingsPanel
+     * @param difficulty the DifficultyManagement object for adjusting game difficulty settings
+     * @param audioPlayer the AudioPlayer for playing audio clips
+     */
     public SettingsPanel(CardLayout cardLayout, JPanel mainPanel, DifficultyManagement difficulty, AudioPlayer audioPlayer) {
         this.audioPlayer = audioPlayer;
         this.cardLayout = cardLayout;
@@ -103,6 +115,9 @@ public class SettingsPanel extends JPanel {
         System.out.println("SettingsPanel initialized");
     }
 
+    /**
+     * Loads the background image for the settings panel.
+     */
     private void loadBackgroundImage() {
         try {
             backgroundImage = ImageIO.read(new File("NotFlappyBird-main/Images/SettingsBackground.png"));
@@ -121,6 +136,14 @@ public class SettingsPanel extends JPanel {
         }
     }
 
+    /**
+     * Adds a setting to the settings container.
+     *
+     * @param container the container to which the setting is added
+     * @param labelName the name of the setting
+     * @param setter    a Consumer that sets the value of the setting
+     * @param getter    a Supplier that gets the current value of the setting
+     */
     private void addSetting(JPanel container, String labelName, Consumer<String> setter, Supplier<String> getter) {
         JPanel panel = new JPanel();
         panel.setLayout(new FlowLayout(FlowLayout.CENTER));
@@ -146,6 +169,12 @@ public class SettingsPanel extends JPanel {
         container.add(panel);
     }
 
+    /**
+     * Creates a customized button with gradient background and hover effect.
+     *
+     * @param text the text of the button
+     * @return the created JButton
+     */
     private JButton createButton(String text) {
         JButton button = new JButton(text) {
             @Override
